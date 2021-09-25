@@ -1,10 +1,14 @@
 Graphs:
 
+    - Vertex = node
+
+    - Edge = path between nodes
+
+    --
+
     - Ideal data structure for mapping relationships
 
     - Linked lists are a type of Tree which is a type of Graph
-
-    - Made up of Nodes (aka Vertex) and Edges (edges are the links connecting the nodes)
 
     - Types of graphs:
 
