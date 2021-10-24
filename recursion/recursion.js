@@ -82,21 +82,36 @@ console.log(contains(nestedObject, "bar")); // false
 
 // Given a multi-dimensional integer array, return the total number of integers stored inside this array
 
-const totalIntegers = (arr, total = 0) => {
-  for (let i = 0; i < arr.length; i++) {
-    const val = arr[i];
+function totalIntegers(array) {
+  if (array.length === 0) return 0;
 
-    if (Array.isArray(val) && val.length) {
-      total = totalIntegers(val, total);
-    }
+  let total = 0;
+  let first = array.shift();
 
-    if (Number.isInteger(val)) {
-      total++;
-    }
+  if (Array.isArray(first)) {
+    total += totalIntegers(first);
+  } else if (Number.isInteger(first)) {
+    total += 1;
   }
 
-  return total;
-};
+  return total + totalIntegers(array);
+}
+
+// const totalIntegers = (arr, total = 0) => {
+//   for (let i = 0; i < arr.length; i++) {
+//     const val = arr[i];
+
+//     if (Array.isArray(val) && val.length) {
+//       total = totalIntegers(val, total);
+//     }
+
+//     if (Number.isInteger(val)) {
+//       total++;
+//     }
+//   }
+
+//   return total;
+// };
 
 console.log(totalIntegers([[[5], 3], 0, 2, ["foo"], [], [4, [5, 6]]])); // 7
 
@@ -105,20 +120,29 @@ console.log(totalIntegers([[[5], 3], 0, 2, ["foo"], [], [4, [5, 6]]])); // 7
 // The function should return an array containing repetitions of the number argument. For instance, replicate(3, 5) should return [5,5,5].
 // If the times argument is negative, return an empty array.
 
-const replicate = (times, base, arr = []) => {
-  // return new Array(times).fill(base); // non-recursive version
+const replicate = (times, number) => {
+  // return new Array(times).fill(number); // non-recursive version
 
-  if (times < 0) return [];
+  if (times <= 0) return [];
 
-  if (arr.length < times) {
-    arr.push(base);
-    replicate(times, base, arr);
-  }
-
-  if (arr.length === times) {
-    return arr;
-  }
+  return [number, ...replicate(times - 1, number)];
 };
+
+// const replicate = (times, number, arr = []) => {
+//   if (times < 0) return [];
+
+//   if (arr.length < times) {
+//     arr.push(number);
+//     replicate(times, number, arr);
+//   }
+
+//   if (arr.length === times) {
+//     return arr;
+//   }
+// };
+
+// non-recursive version
+// const replicate = (times, number) =>  new Array(times).fill(number);
 
 console.log(replicate(3, 5)); // [5, 5, 5]
 console.log(replicate(1, 69)); // [69]
