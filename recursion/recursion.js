@@ -36,3 +36,90 @@ function fibonacciIterative(n) {
 }
 
 console.log(fibonacciIterative(8)); // 21
+
+//*------
+
+// Write a function called contains that searches for a value in a nested object. It returns true if the object contains that value.
+
+const contains = (obj, val) => {
+  const keys = Object.keys(obj);
+  const key = keys[0];
+
+  if (typeof obj[key] === "object") {
+    return contains(obj[key], val);
+  }
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+
+    if (obj[key] === val) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+const nestedObject = {
+  data: {
+    info: {
+      stuff: {
+        thing: {
+          moreStuff: {
+            magicNumber: 44,
+            something: "foo",
+          },
+        },
+      },
+    },
+  },
+};
+
+console.log(contains(nestedObject, 44)); // true
+console.log(contains(nestedObject, "bar")); // false
+
+//*------
+
+// Given a multi-dimensional integer array, return the total number of integers stored inside this array
+
+const totalIntegers = (arr, total = 0) => {
+  for (let i = 0; i < arr.length; i++) {
+    const val = arr[i];
+
+    if (Array.isArray(val) && val.length) {
+      total = totalIntegers(val, total);
+    }
+
+    if (Number.isInteger(val)) {
+      total++;
+    }
+  }
+
+  return total;
+};
+
+console.log(totalIntegers([[[5], 3], 0, 2, ["foo"], [], [4, [5, 6]]])); // 7
+
+//*------
+
+// The function should return an array containing repetitions of the number argument. For instance, replicate(3, 5) should return [5,5,5].
+// If the times argument is negative, return an empty array.
+
+const replicate = (times, base, arr = []) => {
+  // return new Array(times).fill(base); // non-recursive version
+
+  if (times < 0) return [];
+
+  if (arr.length < times) {
+    arr.push(base);
+    replicate(times, base, arr);
+  }
+
+  if (arr.length === times) {
+    return arr;
+  }
+};
+
+console.log(replicate(3, 5)); // [5, 5, 5]
+console.log(replicate(1, 69)); // [69]
+console.log(replicate(-2, 6)); // []
