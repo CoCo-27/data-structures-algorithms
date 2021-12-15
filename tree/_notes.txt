@@ -26,6 +26,9 @@ Tree:
 
     - Trees are similar to linked lists, LL are actually a type of tree but with only a single straight linear path
 
+    - What differentiates trees from graphs is that trees always point to children whereas graphs can point to siblings too. Nodes on a tree always point downward
+
+    - A tree must have a root node, there must be a single entry point
 
     Binary Trees:
 

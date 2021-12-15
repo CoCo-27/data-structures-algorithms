@@ -91,7 +91,7 @@ function totalIntegers(array) {
   if (Array.isArray(first)) {
     total += totalIntegers(first);
   } else if (Number.isInteger(first)) {
-    total += 1;
+    total++;
   }
 
   return total + totalIntegers(array);
@@ -121,8 +121,6 @@ console.log(totalIntegers([[[5], 3], 0, 2, ["foo"], [], [4, [5, 6]]])); // 7
 // If the times argument is negative, return an empty array.
 
 const replicate = (times, number) => {
-  // return new Array(times).fill(number); // non-recursive version
-
   if (times <= 0) return [];
 
   return [number, ...replicate(times - 1, number)];
@@ -141,9 +139,65 @@ const replicate = (times, number) => {
 //   }
 // };
 
-// non-recursive version
-// const replicate = (times, number) =>  new Array(times).fill(number);
-
 console.log(replicate(3, 5)); // [5, 5, 5]
 console.log(replicate(1, 69)); // [69]
 console.log(replicate(-2, 6)); // []
+
+//*------
+
+// Categories of unlimited depth:
+
+const categories = [
+  {
+    name: "Fashion",
+    children: [],
+  },
+  {
+    name: "Entertainment",
+    children: [
+      {
+        name: "Hollywood",
+        children: [],
+      },
+      {
+        name: "Sports",
+        children: [
+          {
+            name: "Baseball",
+            children: [
+              {
+                name: "Equipment",
+                children: [],
+              },
+            ],
+          },
+          {
+            name: "Basketball",
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Music",
+    children: [],
+  },
+];
+
+function logCategory(category, level = 0) {
+  const { name, children } = category;
+
+  if (level) {
+    console.log("-".repeat(level), name);
+  } else {
+    console.log(name);
+  }
+
+  if (children.length) {
+    level++;
+    children.forEach((child) => logCategory(child, level));
+  }
+}
+
+categories.forEach((category) => logCategory(category));
