@@ -201,3 +201,14 @@ function logCategory(category, level = 0) {
 }
 
 categories.forEach((category) => logCategory(category));
+
+/*
+  Fashion
+  Entertainment
+  - Hollywood
+  - Sports
+  -- Baseball
+  --- Equipment
+  -- Basketball
+  Music
+*/
