@@ -4,24 +4,23 @@
         2. Kept in a sorted order of some kind
         3. All children to the left of a parent node are smaller than it's value and all children to the right are larger
 
-    BST's are great for searching as opposed to an unsorted tree since you don't need to visit each nnde, it's a devide and conquer approach
+    BST's are great for searching as opposed to an unsorted tree, since you don't need to visit each node, it's a devide and conquer approach
 
-    Complexity: O(log n) for both insert and search
+    Complexity: O(log n) for both insert and search on average and O(n) for worst case
 */
-
-function TreeNode(value) {
-  this.value = value;
-  this.left = null;
-  this.right = null;
-}
 
 class BinarySearchTree {
   constructor(value) {
-    this.root = value ? new TreeNode(value) : null;
+    this.TreeNode = function (value) {
+      this.value = value;
+      this.left = null;
+      this.right = null;
+    };
+    this.root = value ? new this.TreeNode(value) : null;
   }
 
   insert(insertVal) {
-    const newNode = new TreeNode(insertVal);
+    const newNode = new this.TreeNode(insertVal);
 
     if (!this.root) {
       this.root = newNode;
@@ -58,50 +57,50 @@ class BinarySearchTree {
     return this;
   }
 
-  find(findVal) {
-    if (!this.root) {
-      return false;
-    }
-
-    let found = false;
+  bfsRecursive() {
+    const nodes = [];
 
     function traverseTree(node) {
-      if (node.value === findVal) {
-        found = true;
-        return;
-      }
+      console.log(node.value);
 
-      if (findVal < node.value) {
-        // Keep going down left
-        if (node.left) {
-          traverseTree(node.left);
-        } else {
-          // Reached the end
-          return false;
-        }
-      } else {
-        // Keep going down right
-        if (node.right) {
-          traverseTree(node.right);
-        } else {
-          // Reached the end
-          return false;
-        }
-      }
+      nodes.push(node.value);
+
+      if (node.left) traverseTree(node.left);
+      if (node.right) traverseTree(node.right);
     }
 
     traverseTree(this.root);
+    return nodes;
+  }
 
-    return found;
+  bfsIterative() {
+    const nodes = [this.root];
+    const visited = [];
+
+    while (nodes.length) {
+      const node = nodes.shift();
+
+      console.log(node.value);
+
+      visited.push(node.value);
+
+      if (node.left) nodes.push(node.left);
+      if (node.right) nodes.push(node.right);
+    }
+
+    return visited;
   }
 }
 
-const bst = new BinarySearchTree(10);
+const bst = new BinarySearchTree(50);
 
-bst.insert(11);
-bst.insert(9);
-bst.insert(11);
-bst.insert(13);
+bst.insert(40);
+bst.insert(60);
+bst.insert(70);
+bst.insert(65);
 
-console.log(bst.find(13));
-console.log(JSON.stringify(bst));
+// console.log(JSON.stringify(bst));
+
+console.log(bst.bfsRecursive());
+console.log("----------------");
+console.log(bst.bfsIterative());
