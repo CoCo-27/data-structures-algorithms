@@ -67,28 +67,29 @@ class BinarySearchTree {
 
       if (node.left) traverseTree(node.left);
       if (node.right) traverseTree(node.right);
+
+      return nodes;
     }
 
-    traverseTree(this.root);
-    return nodes;
+    return traverseTree(this.root);
   }
 
   bfsIterative() {
-    const nodes = [this.root];
-    const visited = [];
+    const queue = [this.root];
+    const nodes = [];
 
-    while (nodes.length) {
-      const node = nodes.shift();
+    while (queue.length) {
+      const node = queue.shift();
 
       console.log(node.value);
 
-      visited.push(node.value);
+      nodes.push(node.value);
 
-      if (node.left) nodes.push(node.left);
-      if (node.right) nodes.push(node.right);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
     }
 
-    return visited;
+    return nodes;
   }
 }
 
@@ -99,7 +100,7 @@ bst.insert(60);
 bst.insert(70);
 bst.insert(65);
 
-// console.log(JSON.stringify(bst));
+console.log(JSON.stringify(bst));
 
 console.log(bst.bfsRecursive());
 console.log("----------------");
