@@ -1,48 +1,35 @@
+// Divide and conquer aka Binary Search
+
 // Divide and conquer + recursive solution - O(n log n)
-function arrayContains(arr, val, iteration = 1) {
+function arrayContains(nums, target, iteration = 1) {
   console.log("iteration: ", iteration);
 
-  const center = Math.floor(arr.length / 2);
+  const midIndex = Math.floor(nums.length / 2);
 
-  const left = arr.slice(0, center);
-  const right = arr.slice(center);
-
-  // During the last split one half will have 1 value and the other will have either 1 or 2 values
-  // depending on whether the original array has an even or odd number of items
-  // but as long as one of the halves has 1 item in it we know it's the end and we can't split the array any further
-  if (left.length === 1 || right.length === 1) {
-    // We don't know which half has 1 or possibly 2 values so we check all these indices
-    // if the value is `undefined` it will just evaluate to false so no big deal
-    if (
-      left[0] === val ||
-      left[1] === val ||
-      right[0] === val ||
-      right[1] === val
-    ) {
-      // Found!
-      return true;
-    } else {
-      // Not found
-      return false;
-    }
+  // Not found and end of the line
+  if (midIndex === 0 && nums[0] !== target) {
+    return -1;
   }
 
-  const lastVal = left[left.length - 1];
-
-  if (val === lastVal) {
-    return true;
-  } else if (val < lastVal) {
-    arr = left;
-  } else {
-    arr = right;
+  // Found
+  if (nums[midIndex] === target) {
+    return nums[midIndex];
+  }
+  // First half
+  else if (nums[midIndex] > target) {
+    return binarySearch(nums.slice(0, midIndex), iteration + 1);
+  }
+  // Second half
+  else if (nums[midIndex] < target) {
+    return binarySearch(nums.slice(midIndex), iteration + 1);
   }
 
-  return arrayContains(arr, val, iteration + 1);
+  return arrayContains(nums, target);
 }
 
-arrayContains([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 7); // Takes 2 iterations
+arrayContains([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 8); // Takes 2 iterations
 
-//*-------------------------- vs. --------------------------*//
+//*-------------------------- vs --------------------------*//
 
 // Traditional way - (On)
 function arrayContains(arr, val) {
@@ -57,4 +44,4 @@ function arrayContains(arr, val) {
   return false;
 }
 
-arrayContains([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 7); // Takes 7 iterations
+arrayContains([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 7); // Takes 8 iterations
