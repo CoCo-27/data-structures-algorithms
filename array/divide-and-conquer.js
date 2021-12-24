@@ -1,37 +1,35 @@
-// Divide and conquer aka Binary Search
+// Divide and conquer aka Binary search
 
-// Divide and conquer + recursive solution - O(n log n)
-function arrayContains(nums, target, iteration = 1) {
-  console.log("iteration: ", iteration);
+// Recursive solution - O(n log n)
+function arrayContains(arr, val) {
+  const midPoint = Math.floor(arr.length / 2);
 
-  const midIndex = Math.floor(nums.length / 2);
-
-  // Not found and end of the line
-  if (midIndex === 0 && nums[0] !== target) {
+  // Not found and it's the end of the line
+  if (midPoint === 0 && arr[0] !== val) {
     return -1;
   }
 
   // Found
-  if (nums[midIndex] === target) {
-    return nums[midIndex];
+  if (arr[midPoint] === val) {
+    return arr[midPoint];
   }
   // First half
-  else if (nums[midIndex] > target) {
-    return binarySearch(nums.slice(0, midIndex), iteration + 1);
+  else if (arr[midPoint] > val) {
+    return binarySearch(arr.slice(0, midPoint));
   }
   // Second half
-  else if (nums[midIndex] < target) {
-    return binarySearch(nums.slice(midIndex), iteration + 1);
+  else if (arr[midPoint] < val) {
+    return binarySearch(arr.slice(midPoint));
   }
 
-  return arrayContains(nums, target);
+  return arrayContains(arr, val);
 }
 
 arrayContains([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 8); // Takes 2 iterations
 
 //*-------------------------- vs --------------------------*//
 
-// Traditional way - (On)
+// Brute force approach - (On)
 function arrayContains(arr, val) {
   for (let i = 0; i < arr.length; i++) {
     console.log("iteration: ", i + 1);

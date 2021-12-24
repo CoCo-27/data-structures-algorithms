@@ -60,18 +60,22 @@ class BinarySearchTree {
   bfsRecursive() {
     const nodes = [];
 
-    function traverseTree(node) {
-      console.log(node.value);
+    function traverseTree(node, level) {
+      if (nodes[level]) {
+        nodes[level] = (nodes[level] + node.value) / 2;
+      } else {
+        nodes[level] = node.value;
+      }
 
-      nodes.push(node.value);
+      console.log(level + " -> ", node.value);
 
-      if (node.left) traverseTree(node.left);
-      if (node.right) traverseTree(node.right);
-
-      return nodes;
+      if (node.left) traverseTree(node.left, level + 1);
+      if (node.right) traverseTree(node.right, level + 1);
     }
 
-    return traverseTree(this.root);
+    traverseTree(this.root, 0);
+
+    return nodes;
   }
 
   bfsIterative() {
@@ -81,9 +85,8 @@ class BinarySearchTree {
     while (queue.length) {
       const node = queue.shift();
 
-      console.log(node.value);
-
       nodes.push(node.value);
+      console.log(node.value);
 
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
@@ -91,17 +94,45 @@ class BinarySearchTree {
 
     return nodes;
   }
+
+  dfsRecursive(type) {
+    const vals = [];
+
+    switch (type) {
+      case "pre-order":
+        function traverse(node) {
+          vals.push(node.value);
+
+          if (node.left) traverse(node.left);
+          if (node.right) traverse(node.right);
+        }
+
+        traverse(this.root);
+        break;
+      case "post-order":
+        //
+        break;
+      case "in-order":
+        //
+        break;
+    }
+
+    return vals;
+  }
 }
 
 const bst = new BinarySearchTree(50);
 
 bst.insert(40);
 bst.insert(60);
+bst.insert(55);
 bst.insert(70);
 bst.insert(65);
 
-console.log(JSON.stringify(bst));
+// console.log(JSON.stringify(bst));
 
-console.log(bst.bfsRecursive());
-console.log("----------------");
-console.log(bst.bfsIterative());
+// console.log(bst.bfsRecursive());
+// console.log('----------------');
+// console.log(bst.bfsIterative());
+
+console.log(bst.dfsRecursive("pre-order"));
