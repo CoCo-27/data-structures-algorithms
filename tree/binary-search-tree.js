@@ -2,15 +2,19 @@
     BST Rules:
         1. Has 0, 1, or 2 nodes
         2. Kept in a sorted order of some kind
-        3. All children to the left of a parent node are smaller than it's value and all children to the right are larger
+        3. All children to the left of a node are smaller and all children to the right are larger
 
-    BST's are great for searching as opposed to an unsorted tree, since you don't need to visit each node, it's a devide and conquer approach
-
-    Complexity: O(log n) for both insert and search on average and O(n) for worst case
+    BST's are great for searching vs an unsorted tree, since you don't need to visit every node in the tree, it's a divide and conquer approach
 
     Traversal:
       Breadth = width of the tree / horizontal
       Depth = height of the tree / vertical
+
+    Complexity:
+      - O(log n) Time complexity for both insert and search on average and O(n) for worst case
+        time complexity is the same for BFS and DFS
+      - Space complexity depends on the shape of the tree
+        e.g. on a wide balanced tree BFS will take more memory than DFS but on an unbalanced tree that looks like a linked list, BFS will take less than DFS
 */
 
 class BinarySearchTree {
@@ -140,11 +144,11 @@ bst.insert(30);
 
 //console.log(JSON.stringify(bst));
 
-// BFS: horizontal, level by level from left to right
+// BFS: level by level from left to right
 // https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/learn/lecture/8344808
 //console.log(bst.bfs()); // [50, 40, 60, 30, 55, 70, 65]
 
-// DFS (Pre Order): vertical, go all the way down the left side, then up to the nearest parent, then down the right side and so on...
+// DFS (Pre Order): go all the way down the left side, then up to the nearest parent, then down the right side and so on
 // https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/learn/lecture/11082104
 //console.log(bst.dfsPreOrder()); // [50, 40, 30, 60, 55, 70, 65]
 
