@@ -2,7 +2,7 @@
     BST Rules:
         1. Has 0, 1, or 2 nodes
         2. Kept in a sorted order of some kind
-        3. All children to the left of a parent node are smaller than it's val and all children to the right are larger
+        3. All children to the left of a parent node are smaller than it's value and all children to the right are larger
 
     BST's are great for searching as opposed to an unsorted tree, since you don't need to visit each node, it's a devide and conquer approach
 
