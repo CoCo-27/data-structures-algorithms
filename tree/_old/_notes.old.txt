@@ -1,50 +1,76 @@
-Old notes:
+Tree:
 
-        20          40          15
-      /  |  \                    |
-    12   2   1                   2
+    Vocabulary:
 
-
-    Common binary search tree questions:
-
-        - Given a value insert it at the appropriate spot on the tree
-        - Validate the well formedness of a tree
-
-    * Recursion is often used to traverse binary search trees
-
-    The 2 algorithms to traverse the entirety of a tree are:
-
-        - Breadth first traversal
-        - Depth first traversal
+        Root        - the starting node of a tree
+        Parent      - a node with Children
+        Child       - comes out of a Parent
+        Siblings    - Child nodes that sit on the same level (does NOT need to originate from the same parent)
+        Leaf        - The outermost nodes of a tree, they don't have any children
 
 
-    *** Didn't get how to validate a binary search tree, revisit later: https://www.udemy.com/course/coding-interview-bootcamp-algorithms-and-data-structure/learn/lecture/8547260#content
+    Tree usage examples:
+
+        - Comment threads
+        - Google search results
+        - Determining the best possible chess move by machine opponent
+        - Abstract syntax tree (what a programming language does to parse instructions under the hood)
+        - DOM tree:
+
+            <html>              - Root
+            <body>              - Parent
+            <div>               - Child
+            <div> & <footer>    - Siblings
+            <li>                - Leaf
 
 
+    - Trees are similar to linked lists, LL are actually a type of tree but with only a single straight linear path
 
-    const tree = {
-        nodes: [{
-            data: 20,
-            children: [{
-            data: 0,
-            children: [{
-                data: 12,
-                children: null
-            }, {
-                data: -2,
-                children: null
-            }, {
-                data: 1,
-                children: null
-            }]
-            }, {
-                data: 40
-            }, {
-                data: -15,
-                children: [{
-                    data: -2,
-                    children: null
-                }]
-            }]
-        }]
-    };
+    - What differentiates trees from graphs is that trees always point to children whereas graphs can point to siblings too. Nodes on a tree always point downward
+
+    - A tree must have a root node, there must be a single entry point
+
+    Binary Trees:
+
+        - 2 types:
+            - Perfect binary tree  - all nodes have 2 children each (except for the Leaf nodes, those have no children), the tree looks like a bunch of perfect triangles
+            - Full binary tree     - not complete and even like the perfect binary tree, each node may have 0 or 2 children (but never 1 child)
+
+        - Perfect binary trees are better
+            - the number of nodes double with each level
+            - the number of nodes in the bottom most level equal to the sum of all nodes above it + 1
+                - this means half of the tree's nodes are on the last level
+            - perfect binary search trees let you skip the need to visit all nodes and can therefore be more efficient than other data structures
+                - e.g. instead of O(n) you can now be O(log n) which is better
+                - think of O(log n) as saying the next step is to check one of two places (nodes) but we don't need to check both only 1
+
+
+Binary search trees:
+
+    - a node can only have up to 2 children
+
+    - all nodes to the right of the parent must be greater in value
+    - all nodes to the left of the parent must be smaller in value
+
+
+    Balanced binary search trees:
+
+        Look ups            - O(log n)
+        
+                            unlike an array you don't need it iterate over the whole tree to find a node O(n)
+                            if the node is larger or smaller than the node you're looking for go either right or
+                            left and work in a much smaller subset
+
+        Insert / Delete     - O(log n)
+        
+                            not as efficient as hash tables O(1)
+
+                            
+        * So binary search trees are best for lookups not for inserts and deletes. But they're still better at the latter than arrays O(n)
+        since once something is added/removed other nodes don't need to be shifted
+
+
+    Unbalanced binary search trees:
+
+        These have a worst case complexity of O(n) for all lookups/inserts and deletes because they can become something akin to a 
+        linked list where each node needs to be traversed to find the one you're looking for. This is why balanced trees are always best.
