@@ -5,7 +5,7 @@ class Node {
   }
 }
 
-class LinkedList {
+class SinglyLinkedList {
   constructor(value) {
     this.head = value ? new Node(value) : null;
     // Keeping track of the tail allows append() and prepend() to be O(1)
@@ -95,7 +95,7 @@ class LinkedList {
   }
 }
 
-const myLL = new LinkedList(2); // 2
+const myLL = new SinglyLinkedList(2); // 2
 
 myLL.append(3); // 2 ---> 3
 myLL.append(4); // 2 ---> 3 ---> 4
