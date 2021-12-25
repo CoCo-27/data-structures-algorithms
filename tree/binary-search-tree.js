@@ -1,22 +1,3 @@
-/*
-    BST Rules:
-        1. Has 0, 1, or 2 nodes
-        2. Kept in a sorted order of some kind
-        3. All children to the left of a node are smaller and all children to the right are larger
-
-    BST's are great for searching vs an unsorted tree, since you don't need to visit every node in the tree, it's a divide and conquer approach
-
-    Traversal:
-      Breadth = width of the tree / horizontal
-      Depth = height of the tree / vertical
-
-    Complexity:
-      - O(log n) Time complexity for both insert and search on average and O(n) for worst case
-        time complexity is the same for BFS and DFS
-      - Space complexity depends on the shape of the tree
-        e.g. on a wide balanced tree BFS will take more memory than DFS but on an unbalanced tree that looks like a linked list, BFS will take less than DFS
-*/
-
 class BinarySearchTree {
   constructor() {
     this.root = null;
@@ -83,7 +64,7 @@ class BinarySearchTree {
     const nodes = [];
 
     function traverse(node) {
-      nodes.push(node.val);
+      nodes.push(node.val); // <-- pre order
 
       if (node.left) traverse(node.left);
       if (node.right) traverse(node.right);
@@ -103,7 +84,7 @@ class BinarySearchTree {
       if (node.left) traverse(node.left);
       if (node.right) traverse(node.right);
 
-      nodes.push(node.val);
+      nodes.push(node.val); // <-- post order
     }
 
     traverse(this.root);
@@ -111,7 +92,7 @@ class BinarySearchTree {
     return nodes;
   }
 
-  // Code here is exactly the same as `dfsPreOrder()`
+  // Code here is exactly the same as the others
   // only difference is we push the value AFTER the traverse left recursive call
   dfsInOrder() {
     const nodes = [];
@@ -119,7 +100,7 @@ class BinarySearchTree {
     function traverse(node) {
       if (node.left) traverse(node.left);
 
-      nodes.push(node.val);
+      nodes.push(node.val); // <-- in order
 
       if (node.right) traverse(node.right);
     }

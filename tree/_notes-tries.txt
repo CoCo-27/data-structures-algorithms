@@ -1,0 +1,18 @@
+Tries:
+
+    - https://i.imgur.com/ZFJMOO6.png
+
+    - often used with text values for searching
+        - used to see if a word/s exists within a given path
+            e.g. word search game, auto completion, dictionary, etc
+
+    - can outperform BSTs, hash tables and most other data structures for text searches
+
+    - starts with an empty root node
+    
+    - Complexity:
+        - O (length of word) for lookups
+        - good for space complexity
+            - you only have 26 nodes max (a - z), all words branch off from these
+            - words that are made of the same characters as smaller words branch off them avoiding duplication
+

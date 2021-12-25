@@ -1,0 +1,38 @@
+Binary Heaps:
+
+    - same as a Binary Search Trees in structure, just differs in the rules of ordering
+        - there is no order with left and right, only up and down
+        - left to right insertion
+
+    - used in algorithms where order is important (e.g. "Priority Queues", sorting algorithms, data storage)
+
+        - e.g. let's say we have a Max Binary Heap where the values are the ages of all children in a school
+          and we need to grab all kids above the age of 10, in a Binary Heap this is easy, we just need to traverse the
+          tree and grab nodes until we get to a value of 10 or greater and then we just stop
+            - in a BST, array or object this would be a O(n) operation
+
+Complexity:
+
+    - lookups are O(n) unlike BSTs which are O(log n) on average
+        - this is because the rules of ordering are more strict in BSTs than in heaps hence there are more nodes to check
+    - while searching a Binary Heap is slower than a BST but it's useful because it tracks priority relationships between nodes
+
+---
+
+Binary Max Heap:
+
+    - each node has a value greater than all it's children
+
+Binary Min Heap:
+
+    - each node has a value less than all it's children
+
+---
+
+Priority Queue:
+
+    - the left node has higher priority than the right node
+        - e.g. priority queue to get into an airplane (pilot > stewardess > passengers):
+            https://i.imgur.com/NqO4ncq.jpg
+
+

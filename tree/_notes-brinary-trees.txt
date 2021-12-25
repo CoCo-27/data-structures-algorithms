@@ -1,0 +1,60 @@
+BST Rules:
+
+    1. has 0, 1, or 2 nodes
+    2. kept in a sorted order of some kind
+    3. all children to the left of a node are smaller and all children to the right are larger
+
+Complexity:
+
+    - BSTs' are great for searching vs an unsorted tree, since you don't need to visit every node in the tree, it's a divide and conquer approach
+    - O(log n) Time complexity for both insert and search on average and O(n) for worst case
+        - time complexity is the same for BFS and DFS
+    - space complexity depends on the shape of the tree
+        - e.g. on a wide balanced tree BFS will take more memory than DFS but on an unbalanced tree that looks like a linked list, BFS will take less than DFS
+
+Traversal:
+
+    - Breadth First Search = width of the tree / horizontal / row by row
+    - Depth First Search = height of the tree / vertical / drilling down
+
+---
+
+"Perfect" Binary Tree:
+
+    - https://i.imgur.com/ypQWLw6.png
+
+    - all nodes have either 0 or 2 children, never 1
+    - everything is filled in, the tree is full
+    - perfect binary trees are ideal and efficient, they have 2 unique properties:
+        - the # of nodes double from level to level
+        - the number of nodes on the last level = the sum of all nodes before it + 1
+            - this means half of all nodes in the tree are on the last level
+
+---
+
+"Full" Binary Tree:
+
+    - https://i.imgur.com/oDKIFaf.png
+
+    - all nodes have either 0 or 2 children, never 1
+
+---
+
+"Balanced" BST:
+
+    - https://i.imgur.com/6UHFwSi.jpg
+
+    - looks even on both sides, these are ideal for efficient searching
+        - the number of nodes you need to traverse are cut down by a lot (O log n)
+    - ideally we want to balance our search trees
+        - usually not asked for in interviews but should be able to talk about it (people usually use libs for these)
+            - "AVL Trees" and "Red Black Trees" are BSTs that rebalance themselves after insert/delete operations
+
+"Unbalanced" BST:
+
+    - https://i.imgur.com/151cSWM.jpg
+
+    - lop sided in one direction, looks like a linked list
+    - the number of nodes you need to traverse may be all (O^n)
+
+

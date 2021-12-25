@@ -1,4 +1,4 @@
-// In JavaScript arrays are just objects with integer based keys behind the scenes
+// Arrays are just objects with integer based keys behind the scenes
 class MyArray {
   constructor() {
     this.length = 0;
