@@ -1,4 +1,4 @@
-Tries:
+Tries (Prefix Trees):
 
     - https://i.imgur.com/ZFJMOO6.png
 

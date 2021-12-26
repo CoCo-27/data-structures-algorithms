@@ -1,3 +1,4 @@
+// https://i.imgur.com/lMSJeKl.png
 class BinarySearchTree {
   constructor() {
     this.root = null;
@@ -120,8 +121,6 @@ bst.insert(55);
 bst.insert(70);
 bst.insert(65);
 bst.insert(30);
-
-// Visualized tree: https://i.imgur.com/lMSJeKl.png
 
 //console.log(JSON.stringify(bst));
 

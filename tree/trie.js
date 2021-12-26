@@ -1,3 +1,4 @@
+// https://i.imgur.com/Cn0as1p.png
 class Trie {
   constructor() {
     this.root = null;
@@ -109,7 +110,7 @@ console.log(trie.find("no")); // true
 console.log(trie.find("noise")); // true
 console.log(trie.find("noisy")); // false
 
-// console.log(JSON.stringify(trie));
+console.log(JSON.stringify(trie));
 
 /*
 
