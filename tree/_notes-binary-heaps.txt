@@ -74,15 +74,22 @@ Find the parent of '12':
 
     myHeap[1] = 19
 
+******************
+
+Insertion:
+
+    1. New node is added to the END of the tree
+    2. Then we "bubble up" (if needed):
+        - we recursively keep comparing the new node to it's parent, if it's bigger we swap (in max heap)
+          and so on and so on until the node arrives at it's correct spot
 
 -------------------------------------------------------------------------------------------------------------
 
 Notes:
 
     - same as a Binary Search Trees in structure, just differs in the rules of ordering
-        - there is no left to right relationships, only up and down
-            - but we still insert going from left to right
         - binary = each parent has at most 2 nodes
+        - there is no left to right relationships, only up and down
 
     - used in algorithms where order is important (e.g. "Priority Queues", sorting algorithms, data storage)
 
