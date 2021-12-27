@@ -10,64 +10,69 @@ We can use a Binary Tree data structure to represent a Binary Heap but an easier
 
    indices: [0,  1,  2,  3,  4,  5]
 
-Formula to find the children of a node in the array:
+******************
+
+Formula to find the children of a node in the array (n = index of the node):
 
     left child  = 2n + 1
     right child = 2n + 2
 
-    the children of '10' are '19' and '36' because:
+******************
 
-        left node:
-            10 = 0 index
-            2 * 0 = 0 
-            0 + 1 = 1 index
+the children of '10' are '19' and '36' because:
 
-        right node:
-            10 = 0 index
-            2 * 0 = 0
-            0 + 2 = 2 index
+    left node:
+        10 = 0 index
+        2 * 0 = 0 
+        0 + 1 = 1 index
 
-        myHeap[1] = '19'
-        myHeap[2] = '36'
+    right node:
+        10 = 0 index
+        2 * 0 = 0
+        0 + 2 = 2 index
 
-    the children of '19' are '17' and '12':
+    myHeap[1] = '19'
+    myHeap[2] = '36'
 
-        left node:
-            19 = 1 index
-            2 * 1 = 2
-            2 + 1 = 3 index
+the children of '19' are '17' and '12':
 
-        right node:
-            19 = 1 index
-            2 * 1 = 2
-            2 + 2 = 4 index
+    left node:
+        19 = 1 index
+        2 * 1 = 2
+        2 + 1 = 3 index
 
-        myHeap[3] = '17'
-        myHeap[4] = '12'
+    right node:
+        19 = 1 index
+        2 * 1 = 2
+        2 + 2 = 4 index
 
----
+    myHeap[3] = '17'
+    myHeap[4] = '12'
 
-Formula to find the parent of a node:
+
+******************
+
+Formula to find the parent of a node (n = index of the node):
 
     (n - 1) / 2 floored
 
-    n = index of the node
+******************
 
-    Find the parent of '17':
+Find the parent of '17':
 
-        myHeap[3] = 17
+    myHeap[3] = 17
 
-        (3 index - 1) = 2 / 2 = 1
+    (3 index - 1) = 2 / 2 = 1
 
-        myHeap[1] = 19
+    myHeap[1] = 19
 
-    Find the parent of '12':
+Find the parent of '12':
 
-        myHeap[4] = 12
+    myHeap[4] = 12
 
-        (4 index - 1) = 3 / 2 = 1.5 -> floor -> 1
+    (4 index - 1) = 3 / 2 = 1.5 -> floor -> 1
 
-        myHeap[1] = 19
+    myHeap[1] = 19
 
 
 -------------------------------------------------------------------------------------------------------------
