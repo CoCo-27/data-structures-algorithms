@@ -17,6 +17,22 @@ Traversal:
     - Breadth First Search = width of the tree / horizontal / row by row
     - Depth First Search = height of the tree / vertical / drilling down
 
+
+BFS vs DFS (when to use what):
+
+    BFS:
+
+        - find the shortest path between 2 nodes
+        - if the solution is closer to the root
+        - if the tree is really deep and solutions are rare (DFS will be slower but use less memory)
+
+    DFS:
+
+        - determine if a path exists between 2 nodes
+        - if the tree is very wide (BFS will take too much memory)
+        - if the solutions are frequent but really deep
+        - if the node is further away from the root
+
 ---
 
 "Perfect" Binary Tree:
