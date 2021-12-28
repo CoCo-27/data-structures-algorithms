@@ -1,6 +1,6 @@
-// https://i.imgur.com/SE1ULLs.png
-class MaxBinaryHeap {
-  constructor() {
+class BinaryHeap {
+  constructor(type) {
+    this.type = type;
     this.values = [];
   }
 
@@ -33,7 +33,11 @@ class MaxBinaryHeap {
     let newNodeIndex = this.values.length - 1;
     let parentIndex = this.getParent(newNodeIndex);
 
-    while (val > this.values[parentIndex]) {
+    while (
+      this.type === "min"
+        ? val < this.values[parentIndex]
+        : val > this.values[parentIndex]
+    ) {
       const parentNode = this.values[parentIndex];
       const newNode = this.values[newNodeIndex];
 
@@ -66,7 +70,11 @@ class MaxBinaryHeap {
   }
 }
 
-const maxHeap = new MaxBinaryHeap();
+//*----------- Max Heap: -----------*//
+
+// https://i.imgur.com/SE1ULLs.png
+
+const maxHeap = new BinaryHeap("max");
 
 maxHeap.insert(41);
 maxHeap.insert(39);
@@ -74,8 +82,26 @@ maxHeap.insert(33);
 maxHeap.insert(18);
 maxHeap.insert(27);
 maxHeap.insert(12);
-maxHeap.insert(55); // Bubbles up to the top
+maxHeap.insert(55); // Bubbles up to the right spot
 
-console.log(maxHeap.values); // [55, 39, 41, 18, 27, 12, 33]
+console.log("Max:", maxHeap.values); // [55, 39, 41, 18, 27, 12, 33]
 
-console.log(maxHeap.dfs()); // [55, 39, 18, 27, 41, 12, 33];
+console.log("Max dfs:", maxHeap.dfs()); // [55, 39, 18, 27, 41, 12, 33];
+
+//*----------- Min Heap: -----------*//
+
+// https://i.imgur.com/L1Rn6dO.png
+
+const minHeap = new BinaryHeap("min");
+
+minHeap.insert(2);
+minHeap.insert(3);
+minHeap.insert(6);
+minHeap.insert(5);
+minHeap.insert(9);
+minHeap.insert(8);
+minHeap.insert(1); // Bubbles up to right spot
+
+console.log("Min:", minHeap.values); // [1, 3, 2, 5, 9, 8, 6]
+
+console.log("Min dfs:", minHeap.dfs()); // [1, 3, 5, 9, 2, 8, 6]
