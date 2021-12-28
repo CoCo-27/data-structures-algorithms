@@ -116,14 +116,3 @@ Min Binary Heap:
     - parent nodes are always SMALLER than the children
         - every level will have values going up
 
----
-
-Priority Queue:
-
-    - like a typical queue that's used to hold things except we can also assign priority to the items
-
-    - differs from binary heaps in that left and right relationships exist
-        - the left node has higher priority than the right node
-            - e.g. priority queue to get into an airplane (pilot > stewardess > passengers):
-                https://i.imgur.com/NqO4ncq.jpg
-

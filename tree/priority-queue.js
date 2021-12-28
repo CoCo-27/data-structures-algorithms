@@ -1,12 +1,16 @@
-class BinaryHeap {
-  constructor(type) {
-    this.type = type;
+// Implemented as a Min Heap
+class PriorityQueue {
+  constructor() {
     this.values = [];
+    this.Node = function (val, priority) {
+      this.val = val;
+      this.priority = priority;
+    };
   }
 
   /*
     Formula to find the parent of a node (n = index of node):
-      (n - 1) / 2 floored
+    (n - 1) / 2 floored
   */
   getParent(currentIndex) {
     return Math.floor((currentIndex - 1) / 2);
@@ -45,9 +49,11 @@ class BinaryHeap {
     return traverse(0);
   }
 
-  insert(val) {
+  enqueue(val, priority) {
+    const newNode = new this.Node(val, priority);
+
     // Step 1: insert the value to the end of the list
-    this.values.push(val);
+    this.values.push(newNode);
 
     // Step 2: keep bubbling the node up until it reaches the right spot
     // starting index is the last elem since we just pushed the new val to the end of the list
@@ -62,10 +68,7 @@ class BinaryHeap {
     const parentIndex = this.getParent(currentIndex);
     const parentNode = this.values[parentIndex];
 
-    if (
-      (this.type === "max" && currentNode > parentNode) ||
-      (this.type === "min" && currentNode < parentNode)
-    ) {
+    if (currentNode.priority < parentNode.priority) {
       // Swap
       this.values[currentIndex] = parentNode;
       this.values[parentIndex] = currentNode;
@@ -74,8 +77,7 @@ class BinaryHeap {
     }
   }
 
-  // This method is only for a max heap
-  extractMax() {
+  dequeue() {
     // Step 1: remove and return the first value (in a max heap the first node is the largest)
     const maxValue = this.values.shift();
 
@@ -97,63 +99,46 @@ class BinaryHeap {
     const leftChild = this.values[leftChildIndex];
     const rightChild = this.values[rightChildIndex];
 
-    let largerChild;
-    let largerChildIndex;
+    let smallerChild;
+    let smallerChildIndex;
 
-    if (leftChild > rightChild) {
-      largerChild = leftChild;
-      largerChildIndex = leftChildIndex;
+    if (leftChild?.priority < rightChild?.priority) {
+      smallerChild = leftChild;
+      smallerChildIndex = leftChildIndex;
     } else {
-      largerChild = rightChild;
-      largerChildIndex = rightChildIndex;
+      smallerChild = rightChild;
+      smallerChildIndex = rightChildIndex;
     }
 
-    if (largerChild > currentNode) {
+    if (smallerChild?.priority < currentNode?.priority) {
       // Swap
-      this.values[currentIndex] = largerChild;
-      this.values[largerChildIndex] = currentNode;
+      this.values[currentIndex] = smallerChild;
+      this.values[smallerChildIndex] = currentNode;
 
-      this.bubbleUp(largerChildIndex);
+      this.bubbleUp(smallerChildIndex);
     }
   }
 }
 
-console.log("\n<<<-------------- Max Heap ----------->>>\n");
+const priorityQueue = new PriorityQueue();
 
-// https://i.imgur.com/SE1ULLs.png
+priorityQueue.enqueue("common cold", 5);
+priorityQueue.enqueue("gunshot wound", 1);
+priorityQueue.enqueue("high fever", 4);
+priorityQueue.enqueue("broken arm", 2);
+priorityQueue.enqueue("glass in foot", 3);
 
-const maxHeap = new BinaryHeap("max");
+console.log("Dequeue:", priorityQueue.dequeue()); // gunshot wound
+console.log("Nodes:", priorityQueue.values);
 
-maxHeap.insert(41);
-maxHeap.insert(39);
-maxHeap.insert(33);
-maxHeap.insert(18);
-maxHeap.insert(27);
-maxHeap.insert(12);
-maxHeap.insert(55); // Bubbles up to the right spot
+console.log("Dequeue:", priorityQueue.dequeue()); // broken arm
+console.log("Nodes:", priorityQueue.values);
 
-console.log("Nodes:", maxHeap.values); // [55, 39, 41, 18, 27, 12, 33]
+console.log("Dequeue:", priorityQueue.dequeue()); // glass in foot
+console.log("Nodes:", priorityQueue.values);
 
-console.log("Dfs:", maxHeap.dfs()); // [55, 39, 18, 27, 41, 12, 33];
+console.log("Dequeue:", priorityQueue.dequeue()); // high fever
+console.log("Nodes:", priorityQueue.values);
 
-console.log("Extract Max:", maxHeap.extractMax()); // 55
-
-console.log("Nodes:", maxHeap.values); // [41, 39, 33, 18, 27, 12]
-
-console.log("\n<<<-------------- Min Heap ----------->>>\n");
-
-// https://i.imgur.com/L1Rn6dO.png
-
-const minHeap = new BinaryHeap("min");
-
-minHeap.insert(2);
-minHeap.insert(3);
-minHeap.insert(6);
-minHeap.insert(5);
-minHeap.insert(9);
-minHeap.insert(8);
-minHeap.insert(1); // Bubbles up to right spot
-
-console.log("Nodes:", minHeap.values); // [1, 3, 2, 5, 9, 8, 6]
-
-console.log("Dfs:", minHeap.dfs()); // [1, 3, 5, 9, 2, 8, 6]
+console.log("Dequeue:", priorityQueue.dequeue()); // common cold
+console.log("Nodes:", priorityQueue.values);

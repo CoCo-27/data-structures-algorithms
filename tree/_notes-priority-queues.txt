@@ -1,0 +1,15 @@
+Priority Queue:
+
+    - most often implemented using Binary Heaps
+        - can also be implemented using arrays but it's slower
+
+    - ususally a lower value = higher priority, so min heaps are used instead of max heaps
+        - also queue = FIFO (first in first out), first number < last number, so first = higher priority
+
+    - like a typical queue that's used to hold things except we can also assign priority to each item
+
+    - differs from binary heaps in that left and right relationships exist
+        - the left node has higher priority than the right node
+            - e.g. priority queue to get into an airplane (pilot > stewardess > passengers):
+                https://i.imgur.com/NqO4ncq.jpg
+
