@@ -6,8 +6,8 @@ class MaxBinaryHeap {
 
   /*
     Formula to find the children of a node (n = index of node):
-      left child  = 2n + 1
-      right child = 2n + 2
+      left child  = (2 * n) + 1
+      right child = (2 * n) + 2
   */
   getChildren(index) {
     return {
@@ -34,12 +34,35 @@ class MaxBinaryHeap {
     let parentIndex = this.getParent(newNodeIndex);
 
     while (val > this.values[parentIndex]) {
-      this.values[newNodeIndex] = this.values[parentIndex];
-      this.values[parentIndex] = val;
+      const parentNode = this.values[parentIndex];
+      const newNode = this.values[newNodeIndex];
+
+      this.values[newNodeIndex] = parentNode;
+      this.values[parentIndex] = newNode;
 
       newNodeIndex = parentIndex;
       parentIndex = this.getParent(parentIndex);
     }
+  }
+
+  dfs() {
+    const nodes = [];
+
+    const traverse = (index) => {
+      nodes.push(this.values[index]);
+
+      const { left, right } = this.getChildren(index);
+
+      const leftNode = this.values[left];
+      const rightNode = this.values[right];
+
+      if (leftNode) traverse(left);
+      if (rightNode) traverse(right);
+
+      return nodes;
+    };
+
+    return traverse(0);
   }
 }
 
@@ -53,4 +76,6 @@ maxHeap.insert(27);
 maxHeap.insert(12);
 maxHeap.insert(55); // Bubbles up to the top
 
-console.log(maxHeap.values);
+console.log(maxHeap.values); // [55, 39, 41, 18, 27, 12, 33]
+
+console.log(maxHeap.dfs()); // [55, 39, 18, 27, 41, 12, 33];
