@@ -5,52 +5,75 @@ class BinaryHeap {
   }
 
   /*
+    Formula to find the parent of a node (n = index of node):
+      (n - 1) / 2 floored
+  */
+  getParent(currentIndex) {
+    return Math.floor((currentIndex - 1) / 2);
+  }
+
+  /*
     Formula to find the children of a node (n = index of node):
       left child  = (2 * n) + 1
       right child = (2 * n) + 2
   */
-  getChildren(index) {
+  getChildren(currentIndex) {
     return {
-      leftIndex: index * 2 + 1,
-      rightIndex: index * 2 + 2,
+      leftChildIndex: currentIndex * 2 + 1,
+      rightChildIndex: currentIndex * 2 + 2,
     };
   }
 
-  /*
-    Formula to find the parent of a node (n = index of node):
-      (n - 1) / 2 floored
-  */
-  getParent(index) {
-    return Math.floor((index - 1) / 2);
+  dfs() {
+    const nodes = [];
+
+    const traverse = (currentIndex) => {
+      nodes.push(this.values[currentIndex]);
+
+      const { leftChildIndex, rightChildIndex } =
+        this.getChildren(currentIndex);
+
+      const leftNode = this.values[leftChildIndex];
+      const rightNode = this.values[rightChildIndex];
+
+      if (leftNode) traverse(leftChildIndex);
+      if (rightNode) traverse(rightChildIndex);
+
+      return nodes;
+    };
+
+    return traverse(0);
   }
 
   insert(val) {
-    // Step 1: insert the value to the end of the tree/list
+    // Step 1: insert the value to the end of the list
     this.values.push(val);
 
-    // Step 2: compare the new value to it's parent, if it's larger swap the two
-    // keep doing this until the new value "bubbles up" to it's rightful place
-    let newNodeIndex = this.values.length - 1;
-    let parentIndex = this.getParent(newNodeIndex);
+    // Step 2: keep bubbling the node up until it reaches the right spot
+    // starting index is the last elem since we just pushed the new val to the end of the list
+    this.bubbleUp(this.values.length - 1);
+  }
 
-    while (
-      this.type === "min"
-        ? val < this.values[parentIndex]
-        : val > this.values[parentIndex]
+  bubbleUp(currentIndex) {
+    if (currentIndex === 0) return;
+
+    const currentNode = this.values[currentIndex];
+
+    const parentIndex = this.getParent(currentIndex);
+    const parentNode = this.values[parentIndex];
+
+    if (
+      (this.type === "max" && currentNode > parentNode) ||
+      (this.type === "min" && currentNode < parentNode)
     ) {
-      const parentNode = this.values[parentIndex];
-      const newNode = this.values[newNodeIndex];
+      // Swap
+      this.values[currentIndex] = parentNode;
+      this.values[parentIndex] = currentNode;
 
-      this.values[newNodeIndex] = parentNode;
-      this.values[parentIndex] = newNode;
-
-      newNodeIndex = parentIndex;
-      parentIndex = this.getParent(parentIndex);
+      this.bubbleUp(parentIndex);
     }
   }
 
-  // An `extractMin()` function will be identical except we'd want to get the smaller of the 2 children `Math.min()`
-  // and the condition in the while loop will be `smallerChild < curNode`
   extractMax() {
     // Step 1: remove and return the first value (in a max heap the first node is the largest)
     const maxValue = this.values.shift();
@@ -59,47 +82,38 @@ class BinaryHeap {
     this.values.unshift(this.values.pop());
 
     // Step 3: bubble down the newly inserted last node to it's rightful place until the root node once again holds the largest value
-    let curNodeIndex = 0;
-    let curNode = this.values[curNodeIndex];
-
-    let children = this.getChildren(curNodeIndex);
-    let largerChildIndex = Math.max(children.leftIndex, children.rightIndex); // Since it's a max heap we want the larger of the two
-    let largerChild = this.values[largerChildIndex];
-
-    // Swap
-    while (largerChild > curNode) {
-      this.values[curNodeIndex] = largerChild;
-      this.values[largerChildIndex] = curNode;
-
-      curNodeIndex = largerChildIndex;
-      curNode = this.values[largerChildIndex];
-
-      children = this.getChildren(curNodeIndex);
-      largerChildIndex = Math.max(children.leftIndex, children.rightIndex);
-      largerChild = this.values[largerChildIndex];
-    }
+    // starting index is 0 since we just prepended the last item to the front of the list
+    this.bubbleDown(0);
 
     return maxValue;
   }
 
-  dfs() {
-    const nodes = [];
+  bubbleDown(currentIndex) {
+    const currentNode = this.values[currentIndex];
 
-    const traverse = (index) => {
-      nodes.push(this.values[index]);
+    const { leftChildIndex, rightChildIndex } = this.getChildren(currentIndex);
 
-      const { leftIndex, rightIndex } = this.getChildren(index);
+    const leftChild = this.values[leftChildIndex];
+    const rightChild = this.values[rightChildIndex];
 
-      const leftNode = this.values[leftIndex];
-      const rightNode = this.values[rightIndex];
+    let largerChild;
+    let largerChildIndex;
 
-      if (leftNode) traverse(leftIndex);
-      if (rightNode) traverse(rightIndex);
+    if (leftChild > rightChild) {
+      largerChild = leftChild;
+      largerChildIndex = leftChildIndex;
+    } else {
+      largerChild = rightChild;
+      largerChildIndex = rightChildIndex;
+    }
 
-      return nodes;
-    };
+    if (largerChild > currentNode) {
+      // Swap
+      this.values[currentIndex] = largerChild;
+      this.values[largerChildIndex] = currentNode;
 
-    return traverse(0);
+      this.bubbleUp(largerChildIndex);
+    }
   }
 }
 
