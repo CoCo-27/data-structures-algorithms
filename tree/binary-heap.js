@@ -11,8 +11,8 @@ class BinaryHeap {
   */
   getChildren(index) {
     return {
-      left: index * 2 + 1,
-      right: index * 2 + 2,
+      leftIndex: index * 2 + 1,
+      rightIndex: index * 2 + 2,
     };
   }
 
@@ -49,19 +49,52 @@ class BinaryHeap {
     }
   }
 
+  // An `extractMin()` function will be identical except we'd want to get the smaller of the 2 children `Math.min()`
+  // and the condition in the while loop will be `smallerChild < curNode`
+  extractMax() {
+    // Step 1: remove and return the first value (in a max heap the first node is the largest)
+    const maxValue = this.values.shift();
+
+    // Step 2: move the last value to the front of the heap temporarily
+    this.values.unshift(this.values.pop());
+
+    // Step 3: bubble down the newly inserted last node to it's rightful place until the root node once again holds the largest value
+    let curNodeIndex = 0;
+    let curNode = this.values[curNodeIndex];
+
+    let children = this.getChildren(curNodeIndex);
+    let largerChildIndex = Math.max(children.leftIndex, children.rightIndex); // Since it's a max heap we want the larger of the two
+    let largerChild = this.values[largerChildIndex];
+
+    // Swap
+    while (largerChild > curNode) {
+      this.values[curNodeIndex] = largerChild;
+      this.values[largerChildIndex] = curNode;
+
+      curNodeIndex = largerChildIndex;
+      curNode = this.values[largerChildIndex];
+
+      children = this.getChildren(curNodeIndex);
+      largerChildIndex = Math.max(children.leftIndex, children.rightIndex);
+      largerChild = this.values[largerChildIndex];
+    }
+
+    return maxValue;
+  }
+
   dfs() {
     const nodes = [];
 
     const traverse = (index) => {
       nodes.push(this.values[index]);
 
-      const { left, right } = this.getChildren(index);
+      const { leftIndex, rightIndex } = this.getChildren(index);
 
-      const leftNode = this.values[left];
-      const rightNode = this.values[right];
+      const leftNode = this.values[leftIndex];
+      const rightNode = this.values[rightIndex];
 
-      if (leftNode) traverse(left);
-      if (rightNode) traverse(right);
+      if (leftNode) traverse(leftIndex);
+      if (rightNode) traverse(rightIndex);
 
       return nodes;
     };
@@ -70,7 +103,7 @@ class BinaryHeap {
   }
 }
 
-//*----------- Max Heap: -----------*//
+console.log("\n<<<-------------- Max Heap ----------->>>\n");
 
 // https://i.imgur.com/SE1ULLs.png
 
@@ -84,11 +117,15 @@ maxHeap.insert(27);
 maxHeap.insert(12);
 maxHeap.insert(55); // Bubbles up to the right spot
 
-console.log("Max:", maxHeap.values); // [55, 39, 41, 18, 27, 12, 33]
+console.log("Nodes:", maxHeap.values); // [55, 39, 41, 18, 27, 12, 33]
 
-console.log("Max dfs:", maxHeap.dfs()); // [55, 39, 18, 27, 41, 12, 33];
+console.log("Dfs:", maxHeap.dfs()); // [55, 39, 18, 27, 41, 12, 33];
 
-//*----------- Min Heap: -----------*//
+console.log("Extract Max:", maxHeap.extractMax()); // 55
+
+console.log("Nodes:", maxHeap.values); // [41, 39, 33, 18, 27, 12]
+
+console.log("\n<<<-------------- Min Heap ----------->>>\n");
 
 // https://i.imgur.com/L1Rn6dO.png
 
@@ -102,6 +139,6 @@ minHeap.insert(9);
 minHeap.insert(8);
 minHeap.insert(1); // Bubbles up to right spot
 
-console.log("Min:", minHeap.values); // [1, 3, 2, 5, 9, 8, 6]
+console.log("Nodes:", minHeap.values); // [1, 3, 2, 5, 9, 8, 6]
 
-console.log("Min dfs:", minHeap.dfs()); // [1, 3, 5, 9, 2, 8, 6]
+console.log("Dfs:", minHeap.dfs()); // [1, 3, 5, 9, 2, 8, 6]
