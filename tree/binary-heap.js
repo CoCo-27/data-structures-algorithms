@@ -79,6 +79,9 @@ class BinaryHeap {
     // Step 1: remove and return the first value (in a max heap the first node is the largest)
     const maxValue = this.values.shift();
 
+    // If this was the last value in the list there's no need to do Steps 2 or 3
+    if (this.values.length === 0) return maxValue;
+
     // Step 2: move the last value to the front of the heap temporarily
     this.values.unshift(this.values.pop());
 

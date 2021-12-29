@@ -81,6 +81,9 @@ class PriorityQueue {
     // Step 1: remove and return the first value (in a max heap the first node is the largest)
     const maxValue = this.values.shift();
 
+    // If this was the last value in the list there's no need to do Steps 2 or 3
+    if (this.values.length === 0) return maxValue;
+
     // Step 2: move the last value to the front of the heap temporarily
     this.values.unshift(this.values.pop());
 
@@ -99,10 +102,12 @@ class PriorityQueue {
     const leftChild = this.values[leftChildIndex];
     const rightChild = this.values[rightChildIndex];
 
+    if (!leftChild || !rightChild) return;
+
     let smallerChild;
     let smallerChildIndex;
 
-    if (leftChild?.priority < rightChild?.priority) {
+    if (leftChild.priority < rightChild.priority) {
       smallerChild = leftChild;
       smallerChildIndex = leftChildIndex;
     } else {
@@ -110,7 +115,7 @@ class PriorityQueue {
       smallerChildIndex = rightChildIndex;
     }
 
-    if (smallerChild?.priority < currentNode?.priority) {
+    if (smallerChild.priority < currentNode.priority) {
       // Swap
       this.values[currentIndex] = smallerChild;
       this.values[smallerChildIndex] = currentNode;
@@ -128,17 +133,19 @@ priorityQueue.enqueue("high fever", 4);
 priorityQueue.enqueue("broken arm", 2);
 priorityQueue.enqueue("glass in foot", 3);
 
+console.log("Nodes:", priorityQueue.values);
+// [
+//   { val: "gunshot wound", priority: 1 },
+//   { val: "broken arm", priority: 2 },
+//   { val: "high fever", priority: 4 },
+//   { val: "common cold", priority: 5 },
+//   { val: "glass in foot", priority: 3 },
+// ]
+
 console.log("Dequeue:", priorityQueue.dequeue()); // gunshot wound
-console.log("Nodes:", priorityQueue.values);
-
 console.log("Dequeue:", priorityQueue.dequeue()); // broken arm
-console.log("Nodes:", priorityQueue.values);
-
 console.log("Dequeue:", priorityQueue.dequeue()); // glass in foot
-console.log("Nodes:", priorityQueue.values);
-
 console.log("Dequeue:", priorityQueue.dequeue()); // high fever
-console.log("Nodes:", priorityQueue.values);
-
 console.log("Dequeue:", priorityQueue.dequeue()); // common cold
-console.log("Nodes:", priorityQueue.values);
+
+console.log("Nodes:", priorityQueue.values); // []
