@@ -1,4 +1,4 @@
-// Implemented as a Min Heap
+// Implemented as a Min Binary Heap
 class PriorityQueue {
   constructor() {
     this.values = [];
@@ -8,45 +8,16 @@ class PriorityQueue {
     };
   }
 
-  /*
-    Formula to find the parent of a node (n = index of node):
-    (n - 1) / 2 floored
-  */
-  getParent(currentIndex) {
-    return Math.floor((currentIndex - 1) / 2);
+  getParentIndex(index) {
+    return Math.floor((index - 1) / 2);
   }
 
-  /*
-    Formula to find the children of a node (n = index of node):
-      left child  = (2 * n) + 1
-      right child = (2 * n) + 2
-  */
-  getChildren(currentIndex) {
-    return {
-      leftChildIndex: currentIndex * 2 + 1,
-      rightChildIndex: currentIndex * 2 + 2,
-    };
+  getLeftChildIndex(index) {
+    return index * 2 + 1;
   }
 
-  dfs() {
-    const nodes = [];
-
-    const traverse = (currentIndex) => {
-      nodes.push(this.values[currentIndex]);
-
-      const { leftChildIndex, rightChildIndex } =
-        this.getChildren(currentIndex);
-
-      const leftNode = this.values[leftChildIndex];
-      const rightNode = this.values[rightChildIndex];
-
-      if (leftNode) traverse(leftChildIndex);
-      if (rightNode) traverse(rightChildIndex);
-
-      return nodes;
-    };
-
-    return traverse(0);
+  getRightChildIndex(index) {
+    return index * 2 + 2;
   }
 
   enqueue(val, priority) {
@@ -55,72 +26,82 @@ class PriorityQueue {
     // Step 1: insert the value to the end of the list
     this.values.push(newNode);
 
-    // Step 2: keep bubbling the node up until it reaches the right spot
-    // starting index is the last elem since we just pushed the new val to the end of the list
-    this.bubbleUp(this.values.length - 1);
+    // Step 2: keep syncing the node up until it reaches the right spot
+    this.syncUp();
   }
 
-  bubbleUp(currentIndex) {
-    if (currentIndex === 0) return;
+  syncUp() {
+    let index = this.values.length - 1; // we start at the end of the list
 
-    const currentNode = this.values[currentIndex];
+    const element = this.values[index];
 
-    const parentIndex = this.getParent(currentIndex);
-    const parentNode = this.values[parentIndex];
+    while (index > 0) {
+      const parentIndex = this.getParentIndex(index);
+      const parent = this.values[parentIndex];
 
-    if (currentNode.priority < parentNode.priority) {
-      // Swap
-      this.values[currentIndex] = parentNode;
-      this.values[parentIndex] = currentNode;
+      if (element.priority >= parent.priority) break;
 
-      this.bubbleUp(parentIndex);
+      this.values[parentIndex] = element;
+      this.values[index] = parent;
+
+      index = parentIndex;
     }
   }
 
   dequeue() {
-    // Step 1: remove and return the first value (in a max heap the first node is the largest)
-    const maxValue = this.values.shift();
+    // Step 1: remove and return the first value (in a min heap the first node is the highest priority)
+    const firstNode = this.values[0];
 
-    // If this was the last value in the list there's no need to do Steps 2 or 3
-    if (this.values.length === 0) return maxValue;
+    if (this.values.length > 0) {
+      // Step 2: move the last value to the front of the heap temporarily
+      const lastNode = this.values.pop();
+      this.values[0] = lastNode;
 
-    // Step 2: move the last value to the front of the heap temporarily
-    this.values.unshift(this.values.pop());
-
-    // Step 3: bubble down the newly inserted last node to it's rightful place until the root node once again holds the largest value
-    // starting index is 0 since we just prepended the last item to the front of the list
-    this.bubbleDown(0);
-
-    return maxValue;
-  }
-
-  bubbleDown(currentIndex) {
-    const currentNode = this.values[currentIndex];
-
-    const { leftChildIndex, rightChildIndex } = this.getChildren(currentIndex);
-
-    const leftChild = this.values[leftChildIndex];
-    const rightChild = this.values[rightChildIndex];
-
-    if (!leftChild || !rightChild) return;
-
-    let smallerChild;
-    let smallerChildIndex;
-
-    if (leftChild.priority < rightChild.priority) {
-      smallerChild = leftChild;
-      smallerChildIndex = leftChildIndex;
-    } else {
-      smallerChild = rightChild;
-      smallerChildIndex = rightChildIndex;
+      // Step 3: keep syncing the node down until it reaches the right spot
+      this.syncDown();
     }
 
-    if (smallerChild.priority < currentNode.priority) {
-      // Swap
-      this.values[currentIndex] = smallerChild;
-      this.values[smallerChildIndex] = currentNode;
+    return firstNode;
+  }
 
-      this.bubbleUp(smallerChildIndex);
+  syncDown() {
+    let index = 0; // we start at the beginning of the list
+
+    const length = this.values.length;
+    const element = this.values[0];
+
+    while (true) {
+      const leftChildIndex = this.getLeftChildIndex(index);
+      const rightChildIndex = this.getRightChildIndex(index);
+
+      let leftChild, rightChild;
+      let swapIndex = null;
+
+      if (leftChildIndex < length) {
+        leftChild = this.values[leftChildIndex];
+
+        if (leftChild.priority < element.priority) {
+          swapIndex = leftChildIndex;
+        }
+      }
+
+      if (rightChildIndex < length) {
+        rightChild = this.values[rightChildIndex];
+
+        if (
+          (swapIndex === null && rightChild.priority < element.priority) ||
+          (swapIndex !== null && rightChild.priority < leftChild.priority)
+        ) {
+          swapIndex = rightChildIndex;
+        }
+      }
+
+      if (swapIndex === null) break;
+
+      this.values[index] = this.values[swapIndex];
+      this.values[swapIndex] = element;
+
+      index = swapIndex;
     }
   }
 }
@@ -148,4 +129,4 @@ console.log("Dequeue:", priorityQueue.dequeue()); // glass in foot
 console.log("Dequeue:", priorityQueue.dequeue()); // high fever
 console.log("Dequeue:", priorityQueue.dequeue()); // common cold
 
-console.log("Nodes:", priorityQueue.values); // []
+console.log("Nodes:", priorityQueue.values); // [{ val: 'common cold', priority: 5 }]
