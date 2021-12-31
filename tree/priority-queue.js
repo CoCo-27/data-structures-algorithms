@@ -23,28 +23,29 @@ class PriorityQueue {
   enqueue(val, priority) {
     const newNode = new this.Node(val, priority);
 
-    // Step 1: insert the value to the end of the list
+    // Step 1: insert the new value to the end of the list
     this.values.push(newNode);
 
     // Step 2: keep syncing the node up until it reaches the right spot
-    this.syncUp();
+    this.syncUp(this.values.length - 1); // we start at the end of the list
   }
 
-  syncUp() {
-    let index = this.values.length - 1; // we start at the end of the list
+  syncUp(index) {
+    if (index === 0) return;
 
     const element = this.values[index];
 
-    while (index > 0) {
-      const parentIndex = this.getParentIndex(index);
-      const parent = this.values[parentIndex];
+    const parentIndex = this.getParentIndex(index);
+    const parent = this.values[parentIndex];
 
-      if (element.priority >= parent.priority) break;
-
+    // In a min heap the smaller the priority is, the higher it is
+    // and the smaller values are above the larger ones, so if the element's priority is smaller than it's parent then we need to swap them
+    // and keep moving the new value up the tree this way until it reaches the right spot
+    if (element.priority < parent.priority) {
       this.values[parentIndex] = element;
       this.values[index] = parent;
 
-      index = parentIndex;
+      this.syncUp(parentIndex);
     }
   }
 
@@ -58,50 +59,46 @@ class PriorityQueue {
       this.values[0] = lastNode;
 
       // Step 3: keep syncing the node down until it reaches the right spot
-      this.syncDown();
+      this.syncDown(0); // we start at the beginning of the list
     }
 
     return firstNode;
   }
 
-  syncDown() {
-    let index = 0; // we start at the beginning of the list
-
+  syncDown(index) {
     const length = this.values.length;
-    const element = this.values[0];
+    const element = this.values[index];
 
-    while (true) {
-      const leftChildIndex = this.getLeftChildIndex(index);
-      const rightChildIndex = this.getRightChildIndex(index);
+    const leftChildIndex = this.getLeftChildIndex(index);
+    const rightChildIndex = this.getRightChildIndex(index);
 
-      let leftChild, rightChild;
-      let swapIndex = null;
+    let leftChild, rightChild;
+    let swapIndex = null;
 
-      if (leftChildIndex < length) {
-        leftChild = this.values[leftChildIndex];
+    if (leftChildIndex < length) {
+      leftChild = this.values[leftChildIndex];
 
-        if (leftChild.priority < element.priority) {
-          swapIndex = leftChildIndex;
-        }
+      if (leftChild.priority < element.priority) {
+        swapIndex = leftChildIndex;
       }
+    }
 
-      if (rightChildIndex < length) {
-        rightChild = this.values[rightChildIndex];
+    if (rightChildIndex < length) {
+      rightChild = this.values[rightChildIndex];
 
-        if (
-          (swapIndex === null && rightChild.priority < element.priority) ||
-          (swapIndex !== null && rightChild.priority < leftChild.priority)
-        ) {
-          swapIndex = rightChildIndex;
-        }
+      if (
+        (!swapIndex && rightChild.priority < element.priority) ||
+        (swapIndex && rightChild.priority < leftChild.priority)
+      ) {
+        swapIndex = rightChildIndex;
       }
+    }
 
-      if (swapIndex === null) break;
-
+    if (swapIndex) {
       this.values[index] = this.values[swapIndex];
       this.values[swapIndex] = element;
 
-      index = swapIndex;
+      this.syncDown(swapIndex);
     }
   }
 }
