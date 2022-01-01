@@ -4,116 +4,144 @@ class Trie {
     this.root = null;
     this.children = {};
     // type Node {
-    //   children: Node,
+    //   isEnd: bool
+    //   children: Node
     // }
-    this.Node = function () {
+    this.Node = function (isEnd = false) {
       return {
+        isEnd,
         children: {},
       };
     };
   }
 
   insert(word) {
-    let charIndex = 0;
+    let i = 0;
     let tail = this.children;
 
     const traverse = (node) => {
-      const char = word[charIndex];
-      const curNode = node[char];
+      const letter = word[i];
+      const curNode = node[letter];
+      const isLastLetter = i === word.length - 1;
 
-      // console.log(`-- traverse char "${char}" --`);
+      i++;
 
-      charIndex++;
-
-      const isNotLastLetter = charIndex !== word.length;
-
-      // Node exists so skip adding and move onto the next char in word
       if (curNode) {
-        // console.log('node exists, moving on to next letter...');
-
-        if (isNotLastLetter) {
+        // Letter already exists and it's the end of the word, mark node as a word ending
+        if (isLastLetter) {
+          curNode.isEnd = true;
+        }
+        // Letter already exists, go onto the next letter...
+        else {
           tail = curNode.children;
-          traverse(curNode.children);
+          traverse(tail);
         }
       }
-      // Insert new node
+      // Letter doesn't exist, add new!
       else {
-        // console.log('node does not exist, adding new node!');
+        const newNode = new this.Node(isLastLetter);
 
-        const newNode = new this.Node(char);
-
-        tail[char] = newNode;
+        tail[letter] = newNode;
         tail = newNode.children;
 
-        if (isNotLastLetter) {
+        // More letters left, keep going...
+        if (!isLastLetter) {
           traverse(newNode);
         }
       }
     };
 
-    traverse(this.children);
+    traverse(tail);
   }
 
   find(word) {
-    let charIndex = 0;
+    let i = 0;
     let tail = this.children;
 
     const traverse = (node) => {
-      const char = word[charIndex];
-      const curNode = node[char];
+      const letter = word[i];
+      const curNode = node[letter];
+      const isLastLetter = i === word.length - 1;
 
-      // console.log(`-- traverse char "${char}" --`);
+      i++;
 
-      charIndex++;
-
-      const isNotLastLetter = charIndex !== word.length;
-
-      // Node exists!
       if (curNode) {
-        // console.log(`${char} found!`);
-
-        // If not the last letter move onto the next char in word
-        // If it's the last letter we reached the end and all nodes have been found
-        if (isNotLastLetter) {
+        // Found!
+        if (isLastLetter) {
+          return true;
+        }
+        // Matching so far, keep going...
+        else {
           tail = curNode.children;
-          return traverse(curNode.children);
+          return traverse(tail);
         }
       }
-      // Does not exist, exit function at the first occurance of a missing node
+      // Not Found!
       else {
-        // console.log(`${char} NOT found!`);
         return false;
       }
-
-      return true;
     };
 
-    return traverse(this.children);
+    return traverse(tail);
+  }
+
+  // Return ALL words found while traversing a given path
+  findTillNow(word) {
+    let i = 0;
+    let tail = this.children;
+
+    let letters = "";
+    const foundWords = [];
+
+    const traverse = (node) => {
+      const letter = word[i];
+      const curNode = node[letter];
+      const isLastLetter = i === word.length - 1;
+
+      letters += letter;
+
+      i++;
+
+      if (curNode) {
+        // Each time a word end is found (isEnd = true) along the way push the letters up till now into the found words array
+        if (curNode.isEnd) {
+          foundWords.push(letters);
+        }
+
+        // Keep going...
+        if (!isLastLetter) {
+          tail = curNode.children;
+          traverse(tail);
+        }
+      }
+    };
+
+    traverse(tail);
+
+    return foundWords;
+  }
+
+  // Return ALL words found while traversing path AND all words still remaining in the given path
+  findAllRemaining(word) {
+    // TODO: ?
   }
 }
 
 const trie = new Trie();
 
-trie.insert("not");
-// console.log('\n<<<------------------------->>>\n');
-trie.insert("no");
-// console.log('\n<<<------------------------->>>\n');
-trie.insert("note");
-// console.log('\n<<<------------------------->>>\n');
-trie.insert("noise");
-
-trie.insert("bat");
-trie.insert("bait");
-trie.insert("baits");
+const words = ["not", "no", "note", "noise", "bat", "bait", "baits"];
+words.forEach((word) => trie.insert(word));
 
 console.log(trie.find("no")); // true
 console.log(trie.find("noise")); // true
 console.log(trie.find("noisy")); // false
 
+console.log(trie.findTillNow("note")); // ['no', 'not', 'note']
+console.log(trie.findAllRemaining("n")); // ['no', 'not', 'note', 'noise']
+
 console.log(JSON.stringify(trie));
 
 /*
-
 {
   "root": null,
   "children": {
@@ -167,5 +195,4 @@ console.log(JSON.stringify(trie));
       }
   }
 }
-
 */

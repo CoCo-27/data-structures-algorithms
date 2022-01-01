@@ -1,17 +1,19 @@
-// Return the indices of the 2 numbers that add up to the target
-const twoSum = (numbers, target) => {
-  let start = 0;
-  let end = numbers.length - 1;
+function getUniqueValues(arr) {
+  if (arr.length === 0) return [];
 
-  while (numbers[start] + numbers[end] !== target) {
-    if (numbers[start] + numbers[end] < target) {
-      start++;
-    } else {
-      end--;
+  let i = 0;
+  for (let j = 1; j < arr.length; j++) {
+    if (arr[i] !== arr[j]) {
+      i++;
+      arr[i] = arr[j]; // update in place
     }
   }
 
-  return [start, end];
-};
+  // arr = [-1, 1, 2, 3, 4, 5, 6, 7, 5, 6, 7, 7, 7];
 
-console.log([2, 7, 11, 15], 9); // [0, 1]
+  return arr.slice(0, i + 1); // [-1, 1, 2, 3, 4, 5, 6, 7];
+}
+
+// [-1,1,2,3,3,3,4,5,5,6,7,7,7]
+//             i j
+console.log(getUniqueValues([-1, 1, 2, 3, 3, 3, 4, 5, 5, 6, 7, 7, 7]));
