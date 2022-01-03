@@ -1,10 +1,11 @@
 // https://i.imgur.com/Cn0as1p.png
+// https://codesandbox.io/s/trie-autocomplete-5b38n
 class Trie {
   constructor() {
     this.root = null;
     this.children = {};
     // type Node {
-    //   isEnd: bool
+    //   isEnd: boolean
     //   children: Node
     // }
     this.Node = function (isEnd = false) {
@@ -125,6 +126,25 @@ class Trie {
   findAllRemaining(word) {
     // TODO: ?
   }
+
+  printAll() {
+    const isEmpty = (obj) => (obj ? Object.keys(obj).length === 0 : true);
+
+    let letters = "";
+
+    const traverse = (node) => {
+      if (isEmpty(node.children)) return;
+
+      for (let letter in node.children) {
+        letters += letter;
+        traverse(node.children[letter]);
+      }
+    };
+
+    traverse(this);
+
+    return letters;
+  }
 }
 
 const trie = new Trie();
@@ -138,6 +158,8 @@ console.log(trie.find("noisy")); // false
 
 console.log(trie.findTillNow("note")); // ['no', 'not', 'note']
 console.log(trie.findAllRemaining("n")); // ['no', 'not', 'note', 'noise']
+
+console.log(trie.printAll()); // noteisebatits
 
 console.log(JSON.stringify(trie));
 
