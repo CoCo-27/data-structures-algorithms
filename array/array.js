@@ -30,6 +30,7 @@ class MyArray {
   }
 
   // Array methods that require looping are O(n)
+  // each time an element is added or deleted, the entire array's indices must be shifted, except from the end (push/pop)
   reSortOrder(index) {
     for (let i = index; i < this.length - 1; i++) {
       this.data[i] = this.data[i + 1];

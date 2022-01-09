@@ -212,3 +212,30 @@ categories.forEach((category) => logCategory(category));
   -- Basketball
   Music
 */
+
+//*------
+
+// Reverse array in place using 2 pointers + recursion
+
+const reverseArray = function (arr, start = 0, end = arr.length - 1) {
+  if (arr.length === 1) return arr;
+  if (arr.length === 2) {
+    arr.unshift(arr.pop());
+    return arr;
+  }
+
+  // Base case (when left and right pointers overlap)
+  if (start >= end) return arr;
+
+  // Swap
+  const tmp = arr[start];
+  arr[start] = arr[end];
+  arr[end] = tmp;
+
+  start++;
+  end--;
+
+  return reverseArray(arr, start, end);
+};
+
+console.log(reverseArray(["h", "e", "l", "l", "o"])); // ["o", "l", "l", "e", "h"]

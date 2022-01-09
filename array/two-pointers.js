@@ -1,3 +1,4 @@
+// Two pointer approach ususally makes sense on sorted data
 function getUniqueValues(arr) {
   if (arr.length === 0) return [];
 
