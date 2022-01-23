@@ -13,6 +13,7 @@ class Queue:
 
 
 queue = Queue()
+
 print(queue.enqueue(1))  # [1]
 print(queue.enqueue(2))  # [1, 2]
 print(queue.dequeue())  # [2]

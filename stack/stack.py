@@ -15,6 +15,7 @@ class Stack:
 
 
 stack = Stack()
+
 print(stack.push(1))  # [1]
 print(stack.push(2))  # [1, 2]
 print(stack.peek())  # 2
