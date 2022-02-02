@@ -6,6 +6,8 @@ class HashTable:
     def __init__(self, size):
         self.data = [None] * size
 
+    # can be any fast hash algorithm like MD5, etc.
+    # the main purpose is to always return the same value given the same input
     def make_hash(self, key):
         hash = 0
         i = 0
@@ -38,7 +40,7 @@ class HashTable:
         address = self.make_hash(key)
         bucket = self.data[address]
 
-        # non-existent key
+        # non existent key
         if not bucket:
             return None
 
