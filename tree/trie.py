@@ -6,113 +6,133 @@ class Trie():
         self.children = {}
 
     def node(self, is_end=False):
-        # type Node {
-        #     is_end: Boolean
-        #     children: Node
-        # }
         return {
-            'is_end': is_end,
-            'children': {}
+            'children': {},
+            'is_end': is_end
         }
 
     def insert(self, word):
-        def traverse(node=self.children, tail=self.children, i=0):
+        i = 0
+        tail = self.children
+
+        def traverse(node):
+            nonlocal i, tail
+
             letter = word[i]
-            cur_node = node[letter]
-            is_last_letter = i == word.length - 1
+            is_last_letter = i == len(word) - 1
 
             i += 1
 
-            if cur_node:
+            if letter in node:
+                cur_node = node[letter]
+
                 # Letter already exists and it's the end of the word, mark node as a word ending
                 if is_last_letter:
                     cur_node.is_end = True
 
                 # Letter already exists, go onto the next letter...
                 else:
-                    tail = cur_node.children
-                    traverse(tail, i)
+                    tail = cur_node['children']
+                    traverse(node)
 
             # Letter doesn't exist, add new!
             else:
                 new_node = self.node(is_last_letter)
 
                 tail[letter] = new_node
-                tail = new_node.children
+                tail = new_node['children']
 
                 # More letters left, keep going...
                 if not is_last_letter:
-                    traverse(new_node, i)
+                    traverse(new_node)
 
-        return traverse()
+        return traverse(tail)
 
     def find(self, word):
-        def traverse(node=self.children, tail=self.children, i=0):
+        i = 0
+        tail = self.children
+
+        def traverse(node):
+            nonlocal i, tail
+
             letter = word[i]
-            cur_node = node[letter]
-            is_last_letter = i == word.length - 1
+            is_last_letter = i == len(word) - 1
 
             i += 1
 
-            if cur_node:
+            if letter in node:
                 # Found!
                 if is_last_letter:
                     return True
                 # Matching so far, keep going...
                 else:
-                    tail = cur_node.children
+                    cur_node = node[letter]
+                    tail = cur_node['children']
                     return traverse(tail)
 
             # Not Found!
             else:
                 return False
 
-        return traverse()
+        return traverse(tail)
 
     # Return ALL words found while traversing a given path
     def find_till_now(self, word):
-        def traverse(node=self.children, tail=self.children, letters='', found_words=[], i=0):
+        i = 0
+        tail = self.children
+        letters = ''
+        found_words = []
+
+        def traverse(node):
+            nonlocal i, tail, letters, found_words
+
             letter = word[i]
-            cur_node = node[letter]
             is_last_letter = i == len(word) - 1
 
             letters += letter
-
             i += 1
 
-            if cur_node:
-                # Each time a word end is found(isEnd=True) along the way push the letters up till now into the found words array
-                if cur_node.is_end:
+            if letter in node:
+                cur_node = node[letter]
+
+                print(cur_node)
+
+                # Each time a word end is found(is_end=True) along the way push the letters up till now into the found words array
+                if cur_node['is_end']:
                     found_words.append(letters)
 
                 # Keep going...
                 if not is_last_letter:
-                    tail = cur_node.children
-                    traverse(tail)
+                    tail = cur_node['children']
+                    return traverse(tail)
 
             return found_words
 
-        return traverse()
+        return traverse(tail)
 
-        # Return ALL words found while traversing path AND all words still remaining in the given path
-        def find_all_remaining(word):
-            pass
+    # TODO: Return ALL words found while traversing path AND all words still remaining in the given path
+    def find_all_remaining(word):
+        pass
 
     def print_all(self):
+        letters = ''
+
         def is_empty(dict):
             return not bool(dict)
 
-        def traverse(node, letters=''):
-            if is_empty(node.children):
+        def traverse(node):
+            nonlocal letters
+
+            if is_empty(node['children']):
                 return
 
-            for letter in node.children:
-                letters += letter
-                traverse(node.children[letter], letters)
+            for key, val in node['children'].items():
+                letters += key
+                traverse(val)
 
-            return letters
+        traverse({'children': self.children})
 
-        return traverse(self.root)
+        return letters
 
 
 trie = Trie()
@@ -131,59 +151,53 @@ print(trie.find_till_now("note"))  # ['no', 'not', 'note']
 
 print(trie.print_all())  # noteisebatits
 
-
-# /*
 # {
-#   "root": null,
-#   "children": {
-#       "n": {
-#           "children": {
-#               "o": {
-#                   "children": {
-#                       "t": {
-#                           "children": {
-#                               "e": {
-#                                   "children": {}
-#                               }
-#                           }
-#                       },
-#                       "i": {
-#                           "children": {
-#                               "s": {
-#                                   "children": {
-#                                       "e": {
-#                                           "children": {}
-#                                       }
-#                                   }
-#                               }
-#                           }
-#                       }
-#                   }
-#               }
-#           }
-#       },
-#       "b": {
-#           "children": {
-#               "a": {
-#                   "children": {
-#                       "t": {
-#                           "children": {}
-#                       },
-#                       "i": {
-#                           "children": {
-#                               "t": {
-#                                   "children": {
-#                                       "s": {
-#                                           "children": {}
-#                                       }
-#                                   }
-#                               }
-#                           }
-#                       }
-#                   }
-#               }
-#           }
-#       }
-#   }
+#     'n': {
+#         'children': {
+#             'o': {
+#                 'children': {
+#                     'i': {
+#                         'children': {
+#                             's': {
+#                                 'children': {
+#                                     'e': {
+#                                         'children': {},
+#                                         'is_end': True
+#                                     }
+#                                 },
+#                                 'is_end': False
+#                             }
+#                         },
+#                         'is_end': False
+#                     }
+#                 },
+#                 'is_end': False
+#             }
+#         },
+#         'is_end': False
+#     },
+#     'b': {
+#         'children': {
+#             'a': {
+#                 'children': {
+#                     'i': {
+#                         'children': {
+#                             't': {
+#                                 'children': {
+#                                     's': {
+#                                         'children': {},
+#                                         'is_end': True
+#                                     }
+#                                 },
+#                                 'is_end': False
+#                             }
+#                         },
+#                         'is_end': False
+#                     }
+#                 },
+#                 'is_end': False
+#             }
+#         },
+#         'is_end': False
+#     }
 # }
-# */

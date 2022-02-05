@@ -12,13 +12,13 @@ class priority_queue():
     def __init__(self):
         self.values = []
 
-    def get_parent_index(self, index):
+    def get_parent(self, index):
         return math.floor((index - 1) / 2)
 
-    def get_left_child_index(self, index):
+    def get_left_child(self, index):
         return index * 2 + 1
 
-    def get_right_child_index(self, index):
+    def get_right_child(self, index):
         return index * 2 + 2
 
     def enqueue(self, val, priority):
@@ -36,7 +36,7 @@ class priority_queue():
 
         element = self.values[index]
 
-        parent_index = self.get_parent_index(index)
+        parent_index = self.get_parent(index)
         parent = self.values[parent_index]
 
         # In a min heap the smaller the priority is, the higher it is
@@ -71,8 +71,8 @@ class priority_queue():
         length = len(self.values)
         element = self.values[index]
 
-        left_child_index = self.get_left_child_index(index)
-        right_child_index = self.get_right_child_index(index)
+        left_child_index = self.get_left_child(index)
+        right_child_index = self.get_right_child(index)
 
         swap_index = None
 
