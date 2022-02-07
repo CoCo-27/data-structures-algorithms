@@ -95,8 +95,6 @@ class Trie():
             if letter in node:
                 cur_node = node[letter]
 
-                print(cur_node)
-
                 # Each time a word end is found(is_end=True) along the way push the letters up till now into the found words array
                 if cur_node['is_end']:
                     found_words.append(letters)
@@ -130,7 +128,7 @@ class Trie():
                 letters += key
                 traverse(val)
 
-        traverse({'children': self.children})
+        traverse(self.__dict__)
 
         return letters
 
