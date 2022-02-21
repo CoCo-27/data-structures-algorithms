@@ -1,5 +1,5 @@
 # arrays are just objects with integer based keys behind the scenes
-class MyArray:
+class Array:
     def __init__(self):
         self.data = {}
         self.len = 0
@@ -36,7 +36,7 @@ class MyArray:
         self.data = new_data
 
 
-my_array = MyArray()
+my_array = Array()
 
 print(my_array.push("zero"))  # {'O': 'zero'}
 print(my_array.push("one"))  # {'O': 'zero', '1': 'one'}

@@ -1,14 +1,14 @@
 import math
 
 
-class Node():
+class Node:
     def __init__(self, val, priority):
         self.val = val
         self.priority = priority
 
 
 # Implemented as a Min Binary Heap
-class priority_queue():
+class PriorityQueue:
     def __init__(self):
         self.values = []
 
@@ -102,7 +102,7 @@ class priority_queue():
             print((node.val, node.priority))
 
 
-priority_queue = priority_queue()
+priority_queue = PriorityQueue()
 
 priority_queue.enqueue("common cold", 5)
 priority_queue.enqueue("gunshot wound", 1)

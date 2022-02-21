@@ -1,6 +1,6 @@
 # https://i.imgur.com/Cn0as1p.png
 # https://codesandbox.io/s/trie-autocomplete-5b38n
-class Trie():
+class Trie:
     def __init__(self):
         self.root = None
         self.children = {}

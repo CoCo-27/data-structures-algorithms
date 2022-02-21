@@ -4,7 +4,7 @@ Graphs:
 
     - Edge = path between nodes
 
-    --
+    ---
 
     - Ideal data structure for mapping relationships
 
@@ -17,7 +17,7 @@ Graphs:
         2. Undirected - can traverse in any direction (bi-directional)
             e.g. facebook friend relationship
 
-        --
+        ---
 
         1. Weighted - information is stored in the edges
             e.g. google maps shortest path from point A to point B 
@@ -27,8 +27,99 @@ Graphs:
 
         *** Weighted graphs are often used when trying to determine the most optimal path to reach a node
 
-        --
+        ---
 
         1. Cyclic - at least some nodes connected to each other by paths
 
         2. Acyclic - no nodes are connected to each other
+
+__________________________________________________________________________________________________    
+
+
+       2 ------------ 0
+      -  -
+     -    -
+    -      -
+   -        -
+  -          -
+1 ------------ 3
+
+
+Three ways to write graphs:
+
+    1. Edge List:
+
+        const graph = [
+            [0, 2],
+            [2, 3],
+            [2, 1],
+            [1, 3],
+        ];
+
+        Explanation:
+            * 0 is connected to 2
+            * 2 is connected to 3
+            * 2 is also connected to 1
+            * 1 is connected to 3
+
+
+    2. Adjacency List:
+
+        const graph = {
+            0: [2],
+            1: [2, 3],
+            2: [0, 1, 3],
+            3: [1, 2],
+        };
+
+        Explanation:
+            * The index represents the nodes, and the data represents the connections of that node
+            * 0 is connected to 2
+            * 1 is connected to 2 and 3
+            * 2 is connected to 0, 1 and 3
+            * 3 is connected to 1 and 2
+
+
+        * Array implementation (not recomended)
+          The index represents the node (array implementation only works for when the nodes hold numeric and sequential values)
+
+        const graph = [
+            [2],          // 0
+            [2, 3],       // 1
+            [0, 1, 3],    // 2
+            [1, 2],       // 3
+        ];
+
+    3. Adjacency Matrix:
+
+        const graph = {
+            0: [0, 0, 1, 0],
+            1: [0, 0, 1, 1],
+            2: [1, 1, 0, 1],
+            3: [0, 1, 1, 0],
+        };
+
+        Explanation:
+            * Each array holds either 1s or 0s
+                * 1 = connected
+                * 0 = not connected
+
+                *** IMPORTANT: Instead of 0 and 1s you can use any number here to describe "weights" if this is a weighted graph
+
+            * 0 is connected to 2 only
+            * 1 is connected to 2 and 3
+            * 2 is connected to 0, 1 and 3
+            * 3 is connected to 1 and 2
+
+        ** nodes can't be connected to themselves (0)
+
+
+        * Array implementation (not recomended)
+          The index represents the node (array implementation only works for when the nodes hold numeric and sequential values)
+
+        const graph = [
+            [0, 0, 1, 0], // 0
+            [0, 0, 1, 1], // 1
+            [1, 1, 0, 1], // 2
+            [0, 1, 1, 0], // 3
+        ];
