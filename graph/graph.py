@@ -9,10 +9,29 @@ class Graph:
         self.node_count += 1
 
     def add_edge(self, node1, node2):
+        if not self.validate(node1, node2):
+            return
+
         self.adjacency_list[node1].append(node2)
 
         if self.type == 'directed':
             self.adjacency_list[node2].append(node1)
+
+    # check if edge already exists between these 2 vertices
+    # so we don't add duplicates
+    def validate(self, node1, node2):
+        for node in self.adjacency_list[node1]:
+            if node == node2:
+                print(f"Edge already exists between {node1} and {node2}!")
+                return False
+
+        if self.type == 'directed':
+            for node in self.adjacency_list[node2]:
+                if node == node1:
+                    print(f"Edge already exists between {node2} and {node1}!")
+                    return False
+
+        return True
 
     def print_graph(self):
         for vertex in self.adjacency_list:
@@ -24,21 +43,25 @@ print('\n\nUndirected Graph:')
 
 undirected = Graph('undirected')
 
-for num in range(1, 4):
-    undirected.add_vertex(str(num))
+undirected.add_vertex('tk')
+undirected.add_vertex('yulia')
+undirected.add_vertex('penny')
 
-undirected.add_edge("1", "2")
-undirected.add_edge("2", "3")
-undirected.add_edge("3", "1")
+undirected.add_edge('tk', 'yulia')
+undirected.add_edge('tk', 'penny')
+undirected.add_edge('yulia', 'tk')
+
+# not added, error: "Edge already exists between tk and yulia!"
+undirected.add_edge('tk', 'yulia')
 
 print(undirected.adjacency_list)
 print(undirected.print_graph())
 
 # UndirectedGraph {
 #     'adjacency_list': {
-#         '1': ['2'],
-#         '2': ['3'],
-#         '3': ['1']
+#         'tk': ['yulia', 'penny'],
+#         'yulia': ['tk'],
+#         'penny': []
 #     },
 #     'node_count': 3
 # }
@@ -47,21 +70,24 @@ print('\n\nDirected Graph:')
 
 directed = Graph('directed')
 
-for num in range(1, 4):
-    directed.add_vertex(str(num))
+directed.add_vertex('tk')
+directed.add_vertex('yulia')
+directed.add_vertex('penny')
 
-directed.add_edge("1", "2")
-directed.add_edge("2", "3")
-directed.add_edge("3", "1")
+directed.add_edge('tk', 'yulia')
+directed.add_edge('tk', 'penny')
+
+# not added, error: "Edge already exists between yulia and tk!"
+directed.add_edge('yulia', 'tk')
 
 print(directed.adjacency_list)
 print(directed.print_graph())
 
 # DirectedGraph {
 #     'adjacency_list': {
-#         '1': ['2', '3'],
-#         '2': ['1', '3'],
-#         '3': ['2', '1']
+#         'tk': ['yulia', 'penny'],
+#         'yulia': ['tk'],
+#         'penny': ['tk']
 #     },
 #     'node_count': 3
 # }
