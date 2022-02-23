@@ -22,7 +22,7 @@ class WeightedGraph:
             if node[0] == node2:
                 node[1] = new_weight
 
-        if self.type == 'directed':
+        if self.type == 'undirected':
             for node in self.adjacency_list[node2]:
                 if node[0] == node1:
                     node[1] = new_weight
@@ -35,7 +35,7 @@ class WeightedGraph:
                 print(f"Edge already exists between {node1} and {node2}!")
                 return False
 
-        if self.type == 'directed':
+        if self.type == 'undirected':
             for node in self.adjacency_list[node2]:
                 if node[0] == node1:
                     print(f"Edge already exists between {node2} and {node1}!")
@@ -49,26 +49,26 @@ class WeightedGraph:
                 print(f"{vertex} -> {edges[0]} (edge weight: {edges[1]})")
 
 
-print('\n\nUndirected Graph:')
+print('\n\nDirected Graph:')
 
-undirected = WeightedGraph('undirected')
+directed = WeightedGraph('directed')
 
-undirected.add_vertex('tk')
-undirected.add_vertex('yulia')
-undirected.add_vertex('penny')
+directed.add_vertex('tk')
+directed.add_vertex('yulia')
+directed.add_vertex('penny')
 
-undirected.add_edge('tk', 'yulia', 50)
-undirected.add_edge('tk', 'penny', 25)
+directed.add_edge('tk', 'yulia', 50)
+directed.add_edge('tk', 'penny', 25)
 
 # since this graph is undirected this won't throw a validation error
 # and we can add a different weight to this edge than the edge between `tk -> yulia`
-undirected.add_edge('yulia', 'tk', 100)
+directed.add_edge('yulia', 'tk', 100)
 
 # edge weight for the `tk -> yulia` is now 75
-undirected.update_weight('tk', 'yulia', 75)
+directed.update_weight('tk', 'yulia', 75)
 
-print(undirected.print_graph())
-print(undirected.adjacency_list)
+print(directed.print_graph())
+print(directed.adjacency_list)
 
 # {
 #     'tk': [['yulia', 75], ['penny', 25]],
@@ -76,23 +76,23 @@ print(undirected.adjacency_list)
 #     'penny': []
 # }
 
-print('\n\nDirected Graph:')
+print('\n\nUndirected Graph:')
 
-directed = WeightedGraph('directed')
+undirected = WeightedGraph('undirected')
 
-directed.add_vertex('tk')
-directed.add_vertex('yulia')
+undirected.add_vertex('tk')
+undirected.add_vertex('yulia')
 
-directed.add_edge('tk', 'yulia', 50)
+undirected.add_edge('tk', 'yulia', 50)
 
 # not added, error: "Edge already exists between yulia and tk!"
-directed.add_edge('yulia', 'tk', 50)
+undirected.add_edge('yulia', 'tk', 50)
 
 # weight for both edges is now 150
-directed.update_weight('tk', 'yulia', 150)
+undirected.update_weight('tk', 'yulia', 150)
 
-print(directed.print_graph())
-print(directed.adjacency_list)
+print(undirected.print_graph())
+print(undirected.adjacency_list)
 
 # {
 #     'tk': [['yulia', 150]],
