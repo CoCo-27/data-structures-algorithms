@@ -165,7 +165,7 @@ const json = {
   },
 };
 
-console.log("virtualize:", render(json));
+console.log("render:", render(json));
 
 /*
 <div>
