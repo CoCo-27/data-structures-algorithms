@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Typescript Utilies                                                         */
+/* Typescript Utilities                                                       */
 /*----------------------------------------------------------------------------*/
 
 // Required<Type> - makes all props required
@@ -137,6 +137,26 @@ type ValidUserKeys2 = keyof typeof user2; // "username" | "password" | "isAdmin"
 
 let key3: ValidUserKeys = "username"; // valid
 let key4: ValidUserKeys = "age"; // invalid
+
+/*----------------------------------------------------------------------------*/
+
+// Using `key in, keyof and typeof` in combination we can make a new type out of the exact shape of an existing object
+
+const pets = {
+  cat: "penny",
+  fish: "gourami",
+  canSpeak: false,
+};
+
+type Pet = {
+  [key in keyof typeof pets]: typeof pets[key];
+};
+
+// type Pet = {
+//   cat: string;
+//   fish: string;
+//   canSpeak: false;
+// };
 
 /*----------------------------------------------------------------------------*/
 
