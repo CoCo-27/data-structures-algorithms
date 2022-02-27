@@ -56,15 +56,16 @@ function render(node) {
   return elem;
 }
 
-const Title = ({ children, ...res }) => createElement("h1", res, ...children);
-const Link = ({ children, ...res }) => createElement("a", res, ...children);
-const Name = ({ children, ...res }) => createElement("b", res, ...children);
-const Button = ({ children, ...res }) =>
-  createElement("button", res, ...children);
-const Paragraph = ({ children, ...res }) =>
-  createElement("p", res, ...children);
-const Container = ({ children, ...res }) =>
-  createElement("div", res, ...children);
+const Title = ({ children, ...props }) =>
+  createElement("h1", props, ...children);
+const Link = ({ children, ...props }) => createElement("a", props, ...children);
+const Name = ({ children, ...props }) => createElement("b", props, ...children);
+const Button = ({ children, ...props }) =>
+  createElement("button", props, ...children);
+const Paragraph = ({ children, ...props }) =>
+  createElement("p", props, ...children);
+const Container = ({ children, ...props }) =>
+  createElement("div", props, ...children);
 
 const json = createElement(
   Container,
@@ -134,39 +135,3 @@ console.log("shadow dom:", virtualize(html));
   }
 }
 */
-
-//*---------------------------- [copied] Dependencies (from virtual-dom-1.js) ----------------------------*//
-
-function virtualize(elem) {
-  // 3 = TEXT_NODE
-  if (elem.nodeType === 3) {
-    return elem.textContent;
-  }
-
-  const ast = {
-    type: elem.tagName.toLowerCase(),
-    props: {
-      children: [],
-    },
-  };
-
-  // Get attributes
-  for (let attr of elem.attributes) {
-    ast.props[modifyAttribute(attr.name)] = attr.value;
-  }
-
-  if (elem.childElementCount === 0) {
-    ast.props.children = elem.textContent;
-  } else {
-    for (let node of elem.childNodes) {
-      ast.props.children.push(virtualize(node));
-    }
-  }
-
-  return ast;
-}
-
-function modifyAttribute(attr, convert = true) {
-  const atrs = convert ? { class: "className" } : { className: "class" };
-  return atrs[attr] || attr;
-}

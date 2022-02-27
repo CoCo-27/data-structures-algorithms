@@ -82,36 +82,3 @@ console.log("json:", json);
   },
 };
 */
-
-//*---------------------------- [copied] Dependencies (from virtual-dom-1.js) ----------------------------*//
-
-function render(node) {
-  const elem =
-    typeof node === "string"
-      ? document.createTextNode(node)
-      : document.createElement(node.type);
-
-  // Apply attributes
-  for (let attr in node.props) {
-    if (attr !== "children") {
-      elem.setAttribute(modifyAttribute(attr, false), node.props[attr]);
-    }
-  }
-
-  if (node.props) {
-    if (typeof node.props.children === "string") {
-      elem.textContent = node.props.children;
-    } else {
-      node.props.children.forEach((child) => {
-        elem.appendChild(render(child));
-      });
-    }
-  }
-
-  return elem;
-}
-
-function modifyAttribute(attr, convert = true) {
-  const atrs = convert ? { class: "className" } : { className: "class" };
-  return atrs[attr] || attr;
-}
