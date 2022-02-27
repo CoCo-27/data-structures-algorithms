@@ -1,12 +1,5 @@
 function modifyAttribute(attr, convert = true) {
-  const atrs = convert
-    ? {
-        class: "className",
-      }
-    : {
-        className: "class",
-      };
-
+  const atrs = convert ? { class: "className" } : { className: "class" };
   return atrs[attr] || attr;
 }
 

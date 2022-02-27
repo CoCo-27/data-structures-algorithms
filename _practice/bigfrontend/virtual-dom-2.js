@@ -91,6 +91,7 @@ function render(node) {
       ? document.createTextNode(node)
       : document.createElement(node.type);
 
+  // Apply attributes
   for (let attr in node.props) {
     if (attr !== "children") {
       elem.setAttribute(modifyAttribute(attr, false), node.props[attr]);
@@ -111,13 +112,6 @@ function render(node) {
 }
 
 function modifyAttribute(attr, convert = true) {
-  const atrs = convert
-    ? {
-        class: "className",
-      }
-    : {
-        className: "class",
-      };
-
+  const atrs = convert ? { class: "className" } : { className: "class" };
   return atrs[attr] || attr;
 }
