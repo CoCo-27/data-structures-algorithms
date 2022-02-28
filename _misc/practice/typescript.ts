@@ -140,7 +140,7 @@ let key4: ValidUserKeys = "age"; // invalid
 
 /*----------------------------------------------------------------------------*/
 
-// Using `key in, keyof and typeof` in combination we can make a new type out of the exact shape of an existing object
+// Using `key in keyof typeof` in combination we can make a new type out of the exact shape of an existing object
 
 const pets = {
   cat: "penny",
