@@ -3,12 +3,12 @@ class EventEmitter {
     this.events = {};
   }
 
-  subscribe(eventName, callback) {
+  subscribe(eventName, callback, once = false) {
     if (!this.events[eventName]) {
       this.events[eventName] = [];
     }
 
-    this.events[eventName].push(callback);
+    this.events[eventName].push({ callback, once });
 
     const cbIndex = this.events.length;
 
@@ -19,9 +19,17 @@ class EventEmitter {
     };
   }
 
+  once(eventName, callback) {
+    this.subscribe(eventName, callback, true);
+  }
+
   emit(eventName, ...args) {
-    this.events[eventName]?.forEach((cb) => {
-      cb(...args);
+    this.events[eventName]?.forEach(({ callback, once }, index) => {
+      callback(...args);
+
+      if (once) {
+        this.events[eventName].splice(index, 1);
+      }
     });
   }
 }

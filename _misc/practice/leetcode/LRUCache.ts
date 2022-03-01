@@ -19,8 +19,7 @@ class LRUCache {
 
   put(key: number, value: number): void {
     if (!this.cache.has(key) && this.cache.size === this.capacity) {
-      const iterator = this.cache[Symbol.iterator]();
-      const deleteKey = iterator.next().value[0];
+      const deleteKey = this.cache.keys().next().value;
       this.cache.delete(deleteKey);
     }
     this.cache.delete(key);
