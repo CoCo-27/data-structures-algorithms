@@ -1,0 +1,10 @@
+Simple sorting algorithms:
+
+  Bubble sort
+  Selection sort
+  Insertion sort
+
+More advanced sorting algorithms:
+
+  Merge sort
+  Quick sort

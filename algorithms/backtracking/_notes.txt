@@ -1,0 +1,6 @@
+Backtracking:
+
+    Follows brute force approach (therefore not for optimization)
+
+    Is for when you have multiple solutions to a problem and you need to get them all
+
