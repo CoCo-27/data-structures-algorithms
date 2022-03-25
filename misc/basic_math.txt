@@ -1,0 +1,8 @@
+Factorals:
+
+    If there are 3 students and 3 chairs, what are all the different possible ways we can arrange the students to sit?
+
+    3! = 3 + 3 + 3
+
+    Each student can sit in 3 different chairs, therefore 3 + 3 + 3 = 9, another way of saying this is 3 Factoral (3!)
+

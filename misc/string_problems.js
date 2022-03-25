@@ -5,7 +5,7 @@
 // If you need to repeat a string
 "hello".repeat(3); // "hellohellohello"
 
-// Starts and ends with, better than `string[0]` and `string[string.length - 1]`
+// Starts and ends with, cleaner than `string[0]` and `string[string.length - 1]`
 // works with multiple chars too
 "hello".startsWith("h"); // true
 "hello".endsWith("o"); // true

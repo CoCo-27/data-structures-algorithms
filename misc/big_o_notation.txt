@@ -1,4 +1,4 @@
-Notes:
+Time Complexity:
 
 * O(1) - Constant time:
 
