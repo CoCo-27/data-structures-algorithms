@@ -45,7 +45,7 @@ const contains = (obj, val) => {
   const keys = Object.keys(obj);
   const key = keys[0];
 
-  if (typeof obj[key] === "object") {
+  if (typeof obj[key] === 'object') {
     return contains(obj[key], val);
   }
 
@@ -67,16 +67,16 @@ const nestedObject = {
         thing: {
           moreStuff: {
             magicNumber: 44,
-            something: "foo",
-          },
-        },
-      },
-    },
-  },
+            something: 'foo'
+          }
+        }
+      }
+    }
+  }
 };
 
 console.log(contains(nestedObject, 44)); // true
-console.log(contains(nestedObject, "bar")); // false
+console.log(contains(nestedObject, 'bar')); // false
 
 //*------
 
@@ -113,7 +113,7 @@ function totalIntegers(array) {
 //   return total;
 // };
 
-console.log(totalIntegers([[[5], 3], 0, 2, ["foo"], [], [4, [5, 6]]])); // 7
+console.log(totalIntegers([[[5], 3], 0, 2, ['foo'], [], [4, [5, 6]]])); // 7
 
 //*------
 
@@ -149,47 +149,47 @@ console.log(replicate(-2, 6)); // []
 
 const categories = [
   {
-    name: "Fashion",
-    children: [],
+    name: 'Fashion',
+    children: []
   },
   {
-    name: "Entertainment",
+    name: 'Entertainment',
     children: [
       {
-        name: "Hollywood",
-        children: [],
+        name: 'Hollywood',
+        children: []
       },
       {
-        name: "Sports",
+        name: 'Sports',
         children: [
           {
-            name: "Baseball",
+            name: 'Baseball',
             children: [
               {
-                name: "Equipment",
-                children: [],
-              },
-            ],
+                name: 'Equipment',
+                children: []
+              }
+            ]
           },
           {
-            name: "Basketball",
-            children: [],
-          },
-        ],
-      },
-    ],
+            name: 'Basketball',
+            children: []
+          }
+        ]
+      }
+    ]
   },
   {
-    name: "Music",
-    children: [],
-  },
+    name: 'Music',
+    children: []
+  }
 ];
 
 function logCategory(category, level = 0) {
   const { name, children } = category;
 
   if (level) {
-    console.log("-".repeat(level), name);
+    console.log('-'.repeat(level), name);
   } else {
     console.log(name);
   }
@@ -238,4 +238,4 @@ const reverseArray = function (arr, start = 0, end = arr.length - 1) {
   return reverseArray(arr, start, end);
 };
 
-console.log(reverseArray(["h", "e", "l", "l", "o"])); // ["o", "l", "l", "e", "h"]
+console.log(reverseArray(['h', 'e', 'l', 'l', 'o'])); // ["o", "l", "l", "e", "h"]

@@ -7,9 +7,9 @@ const maxSubArray = function (nums) {
   let maxSum = nums[0];
   let newSum = nums[0];
 
-  console.log("maxSum:", maxSum);
-  console.log("newSum:", newSum);
-  console.log("-------");
+  console.log('maxSum:', maxSum);
+  console.log('newSum:', newSum);
+  console.log('-------');
 
   for (let i = 1; i < nums.length; i++) {
     // prettier-ignore
@@ -29,7 +29,7 @@ const maxSubArray = function (nums) {
       maxSum = newSum;
     }
 
-    console.log("-------");
+    console.log('-------');
   }
 
   return maxSum;
@@ -38,7 +38,7 @@ const maxSubArray = function (nums) {
 //*-------------------------- vs --------------------------*//
 
 // Brute force (On2)
-const maxSubArray = function (nums) {
+const maxSubArray2 = function (nums) {
   let maxSum = nums[0];
 
   for (let i = 0; i < nums.length; i++) {
